@@ -909,6 +909,17 @@
             color: var(--gold);
         }
 
+        .contact-card .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .contact-card .modal-actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
         /* Section IDs for navigation */
         #design, #about, #projects, #team, #reviews {
             scroll-margin-top: 80px;
@@ -970,6 +981,9 @@
             .contact-card {
                 padding: 30px 20px;
             }
+            .contact-card .modal-actions {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1015,9 +1029,9 @@
                 <i class="fa-solid fa-clock"></i>
                 <span>Mon–Fri: 9:00 AM – 6:00 PM</span>
             </div>
-            <div style="margin-top: 24px; display: flex; gap: 12px;">
-                <a href="#" class="btn btn-gold" style="flex:1; justify-content:center;" id="modalEmailBtn">Email Us</a>
-                <a href="#" class="btn" style="flex:1; justify-content:center; border:1px solid var(--border-dark); color:var(--white);" id="modalCallBtn">Call Now</a>
+            <div class="modal-actions">
+                <a href="#" class="btn btn-gold" id="modalEmailBtn">Email Us</a>
+                <a href="#" class="btn" style="border:1px solid var(--border-dark); color:var(--white);" id="modalCallBtn">Call Now</a>
             </div>
         </div>
     </div>
@@ -1034,11 +1048,10 @@
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#team">Team</a></li>
                 <li><a href="#reviews">Reviews</a></li>
-                <li><a href="#contact" class="btn btn-gold" id="contactNavBtn" style="padding:8px 20px; font-size:13px;">Contact Us</a></li>
+                <li><a href="#" class="btn btn-gold" id="contactNavBtn" style="padding:8px 20px; font-size:13px;">Contact Us</a></li>
             </ul>
             <div class="nav-right">
                 <button class="lang-select" id="langBtn">EN <i class="fa-solid fa-chevron-down"></i></button>
-                <a href="#contact" class="btn btn-gold" id="contactNavBtnMobile">Contact Us</a>
                 <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
@@ -1055,7 +1068,7 @@
         <a href="#projects">Projects</a>
         <a href="#team">Team</a>
         <a href="#reviews">Reviews</a>
-        <a href="#contact" class="btn btn-gold" id="mobileContactBtn" style="margin-top:10px;">Contact Us</a>
+        <a href="#" class="btn btn-gold" id="mobileContactBtn" style="margin-top:10px;">Contact Us</a>
     </div>
 
     <!-- Hero Section -->
@@ -1279,9 +1292,6 @@
         </div>
     </section>
 
-    <!-- Contact Section (hidden anchor) -->
-    <div id="contact" style="scroll-margin-top: 80px;"></div>
-
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1298,7 +1308,7 @@
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#projects">Projects</a></li>
                         <li><a href="#team">Team</a></li>
-                        <li><a href="#contact">Careers</a></li>
+                        <li><a href="#" class="footer-contact">Careers</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -1313,10 +1323,10 @@
                 <div class="footer-col">
                     <h4>Support</h4>
                     <ul>
-                        <li><a href="#contact">FAQ's</a></li>
-                        <li><a href="#contact">Privacy Policy</a></li>
-                        <li><a href="#contact">Terms & Condition</a></li>
-                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#" class="footer-contact">FAQ's</a></li>
+                        <li><a href="#" class="footer-contact">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-contact">Terms & Condition</a></li>
+                        <li><a href="#" class="footer-contact">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -1368,18 +1378,23 @@
                 if (e.target === modal) closeContactModal();
             });
 
-            // Attach contact modal to all Contact Us buttons (except nav ones that scroll)
-            // Only mobile menu contact button opens modal, nav ones scroll to #contact
-            const mobileContactBtn = document.getElementById('mobileContactBtn');
-            if (mobileContactBtn) {
-                mobileContactBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openContactModal();
-                });
-            }
+            // All Contact Us buttons open the modal
+            const contactButtons = [
+                document.getElementById('contactNavBtn'),
+                document.getElementById('mobileContactBtn')
+            ];
 
-            // Also any footer contact links open modal
-            document.querySelectorAll('.footer-col a[href="#contact"]').forEach(link => {
+            contactButtons.forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openContactModal();
+                    });
+                }
+            });
+
+            // Footer contact links open modal
+            document.querySelectorAll('.footer-contact').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     openContactModal();
@@ -1418,7 +1433,7 @@
                 });
             });
 
-            // Smooth scroll for all anchor links
+            // Smooth scroll for anchor links (except those that open modal)
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href');
@@ -1430,7 +1445,6 @@
                             behavior: 'smooth',
                             block: 'start'
                         });
-                        // Show toast for navigation feedback
                         const text = this.textContent.trim() || 'section';
                         showToast(`📌 Navigating to ${text}`);
                     }
@@ -1503,7 +1517,7 @@
                 });
             });
 
-            console.log('✅ All navigation links scroll to sections, contact modal works!');
+            console.log('✅ Single Contact Us button opens modal with contact info!');
         })();
     </script>
 
