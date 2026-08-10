@@ -184,6 +184,13 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            position: relative;
+        }
+
+        /* Language Dropdown */
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
         }
 
         .lang-select {
@@ -195,6 +202,50 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .lang-select:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .lang-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--navy-card);
+            min-width: 140px;
+            border-radius: 8px;
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            overflow: hidden;
+            margin-top: 4px;
+            z-index: 200;
+        }
+
+        .lang-dropdown-content.open {
+            display: block;
+        }
+
+        .lang-dropdown-content a {
+            color: var(--white);
+            padding: 10px 16px;
+            display: block;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .lang-dropdown-content a:hover {
+            background: rgba(212, 163, 89, 0.15);
+            color: var(--gold);
+        }
+
+        .lang-dropdown-content a.active {
+            background: rgba(212, 163, 89, 0.2);
+            color: var(--gold);
         }
 
         /* Hamburger */
@@ -795,7 +846,7 @@
             border-color: var(--gold);
         }
 
-        /* Toast notification */
+        /* Toast notification - only for non-nav actions */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -948,7 +999,7 @@
             .nav-right .btn-gold {
                 display: none;
             }
-            .nav-right .lang-select {
+            .lang-dropdown {
                 display: none;
             }
             .hero-title {
@@ -1004,7 +1055,7 @@
 </head>
 <body>
 
-    <!-- Toast Notification -->
+    <!-- Toast Notification - only for non-nav actions -->
     <div id="toast" class="toast">✨ Action triggered!</div>
 
     <!-- Contact Modal -->
@@ -1051,7 +1102,24 @@
                 <li><a href="#" class="btn btn-gold" id="contactNavBtn" style="padding:8px 20px; font-size:13px;">Contact Us</a></li>
             </ul>
             <div class="nav-right">
-                <button class="lang-select" id="langBtn">EN <i class="fa-solid fa-chevron-down"></i></button>
+                <!-- Language Dropdown -->
+                <div class="lang-dropdown">
+                    <button class="lang-select" id="langBtn">
+                        <span id="currentLang">EN</span> <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown-content" id="langDropdown">
+                        <a href="#" data-lang="EN" class="active">🇬🇧 English</a>
+                        <a href="#" data-lang="ES">🇪🇸 Español</a>
+                        <a href="#" data-lang="FR">🇫🇷 Français</a>
+                        <a href="#" data-lang="DE">🇩🇪 Deutsch</a>
+                        <a href="#" data-lang="IT">🇮🇹 Italiano</a>
+                        <a href="#" data-lang="PT">🇵🇹 Português</a>
+                        <a href="#" data-lang="RU">🇷🇺 Русский</a>
+                        <a href="#" data-lang="AR">🇸🇦 العربية</a>
+                        <a href="#" data-lang="ZH">🇨🇳 中文</a>
+                        <a href="#" data-lang="JA">🇯🇵 日本語</a>
+                    </div>
+                </div>
                 <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
@@ -1333,7 +1401,7 @@
 
             <div class="footer-bottom">
                 <p>&copy; 2026 Arcora. All Rights Reserved.</p>
-                <p>Design with <span style="color: #ef4444;">♥</span> by kimTech Studio</p>
+                <p>Design with <span style="color: #ef4444;">♥</span> by UI/UX Studio</p>
                 <div class="social-links">
                     <a href="#" class="social-icon" data-social="facebook"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" class="social-icon" data-social="linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
@@ -1346,7 +1414,7 @@
 
     <script>
         (function() {
-            // Toast notification
+            // Toast notification - only for non-nav actions
             const toast = document.getElementById('toast');
             let toastTimer;
 
@@ -1414,6 +1482,42 @@
                 closeContactModal();
             });
 
+            // Language Dropdown
+            const langBtn = document.getElementById('langBtn');
+            const langDropdown = document.getElementById('langDropdown');
+            const currentLang = document.getElementById('currentLang');
+
+            langBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                langDropdown.classList.toggle('open');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.lang-dropdown')) {
+                    langDropdown.classList.remove('open');
+                }
+            });
+
+            // Language selection
+            document.querySelectorAll('#langDropdown a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.dataset.lang;
+                    currentLang.textContent = lang;
+                    
+                    // Update active state
+                    document.querySelectorAll('#langDropdown a').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Close dropdown
+                    langDropdown.classList.remove('open');
+                    
+                    // Show toast for language change
+                    showToast(`🌐 Language changed to ${lang}`);
+                });
+            });
+
             // Hamburger menu
             const hamburger = document.getElementById('hamburgerBtn');
             const mobileMenu = document.getElementById('mobileMenu');
@@ -1433,7 +1537,7 @@
                 });
             });
 
-            // Smooth scroll for anchor links (except those that open modal)
+            // Smooth scroll for anchor links (NO toast for navigation)
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href');
@@ -1445,19 +1549,12 @@
                             behavior: 'smooth',
                             block: 'start'
                         });
-                        const text = this.textContent.trim() || 'section';
-                        showToast(`📌 Navigating to ${text}`);
+                        // NO toast notification for navigation
                     }
                 });
             });
 
-            // Language button
-            document.getElementById('langBtn')?.addEventListener('click', function(e) {
-                e.preventDefault();
-                showToast('🌐 Language toggled');
-            });
-
-            // Service cards "Read More"
+            // Service cards "Read More" - show toast
             document.querySelectorAll('.service-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1466,7 +1563,7 @@
                 });
             });
 
-            // Testimonial slider controls
+            // Testimonial slider controls - show toast
             document.getElementById('testiLeft')?.addEventListener('click', function(e) {
                 e.preventDefault();
                 showToast('⬅️ Previous testimonial');
@@ -1476,7 +1573,7 @@
                 showToast('➡️ Next testimonial');
             });
 
-            // Portfolio slider controls
+            // Portfolio slider controls - show toast
             document.getElementById('portfolioLeft')?.addEventListener('click', function(e) {
                 e.preventDefault();
                 showToast('⬅️ Previous project');
@@ -1486,7 +1583,7 @@
                 showToast('➡️ Next project');
             });
 
-            // Portfolio cards
+            // Portfolio cards - show toast
             document.querySelectorAll('.portfolio-card').forEach(card => {
                 card.addEventListener('click', function(e) {
                     const title = this.querySelector('.portfolio-info h4')?.textContent || 'Project';
@@ -1494,7 +1591,7 @@
                 });
             });
 
-            // Newsletter form
+            // Newsletter form - show toast
             const newsletterForm = document.getElementById('newsletterForm');
             if (newsletterForm) {
                 newsletterForm.addEventListener('submit', function(e) {
@@ -1509,7 +1606,7 @@
                 });
             }
 
-            // Social icons
+            // Social icons - show toast
             document.querySelectorAll('.social-icon').forEach(icon => {
                 icon.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1517,7 +1614,25 @@
                 });
             });
 
-            console.log('✅ Single Contact Us button opens modal with contact info!');
+            // Hero buttons scroll (NO toast)
+            document.getElementById('heroServicesBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#design').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            document.getElementById('heroProjectsBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#projects').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            document.getElementById('achieveProjectsBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#projects').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            document.getElementById('achieveLinkBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#projects').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+
+            console.log('✅ Navigation has NO toast notifications, language dropdown with multiple languages added!');
         })();
     </script>
 
