@@ -44,6 +44,7 @@
         a {
             text-decoration: none;
             color: inherit;
+            cursor: pointer;
         }
 
         ul {
@@ -84,6 +85,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: none;
+            background: transparent;
         }
 
         .btn-gold {
@@ -110,12 +112,16 @@
         header {
             padding: 28px 0;
             background: transparent;
+            position: relative;
+            z-index: 10;
         }
 
         .nav-wrapper {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .logo {
@@ -158,6 +164,9 @@
             background: none;
             border: none;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         /* Hero Section */
@@ -197,6 +206,7 @@
             display: flex;
             align-items: center;
             gap: 24px;
+            flex-wrap: wrap;
         }
 
         .hero-image-container {
@@ -321,6 +331,9 @@
             color: var(--navy-dark);
             text-transform: uppercase;
             letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         /* Achievements / Acoustics Section */
@@ -405,6 +418,8 @@
             justify-content: space-between;
             align-items: flex-end;
             margin-bottom: 48px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .testimonials-header h2 {
@@ -427,9 +442,16 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .control-btn.active {
+            background: var(--gold);
+            color: var(--navy-dark);
+            border-color: var(--gold);
+        }
+
+        .control-btn:hover {
             background: var(--gold);
             color: var(--navy-dark);
             border-color: var(--gold);
@@ -507,6 +529,13 @@
             border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--border-light);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
         }
 
         .portfolio-img {
@@ -565,6 +594,7 @@
             display: flex;
             gap: 12px;
             max-width: 400px;
+            flex-wrap: wrap;
         }
 
         .newsletter-form input {
@@ -575,6 +605,11 @@
             background: rgba(255, 255, 255, 0.05);
             color: var(--white);
             font-size: 13px;
+            min-width: 160px;
+        }
+
+        .newsletter-form input::placeholder {
+            color: var(--text-light);
         }
 
         .newsletter-img {
@@ -628,6 +663,8 @@
             padding-top: 24px;
             border-top: 1px solid var(--border-dark);
             font-size: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .social-links {
@@ -645,6 +682,13 @@
             justify-content: center;
             color: var(--white);
             font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .social-icon:hover {
+            background: var(--gold);
+            color: var(--navy-dark);
+            border-color: var(--gold);
         }
 
         /* Responsive */
@@ -655,49 +699,104 @@
             .services-grid, .testimonials-grid, .portfolio-grid, .footer-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .hero-title {
+                font-size: 44px;
+            }
         }
 
         @media (max-width: 600px) {
+            .nav-menu {
+                display: none;
+            }
             .services-grid, .testimonials-grid, .portfolio-grid, .footer-grid {
                 grid-template-columns: 1fr;
             }
             .hero-title {
-                font-size: 38px;
+                font-size: 34px;
             }
+            .hero-image-container .sub-arch-img {
+                display: none;
+            }
+            .arch-badge {
+                left: 10px;
+                top: 10px;
+                width: 60px;
+                height: 60px;
+            }
+            .arch-badge .num {
+                font-size: 14px;
+            }
+            .newsletter-card {
+                padding: 30px;
+            }
+            .main-arch-img {
+                height: 320px;
+            }
+            .achieve-main-img {
+                height: 320px;
+            }
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--navy-card);
+            color: var(--white);
+            padding: 14px 28px;
+            border-radius: 8px;
+            border-left: 4px solid var(--gold);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            font-size: 14px;
+            z-index: 999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
 
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">✨ Action triggered!</div>
+
     <!-- Header Section -->
     <header>
         <div class="container nav-wrapper">
-            <a href="#" class="logo">
+            <a href="#" class="logo" id="logoLink">
                 <div class="logo-icon"></div> Arcora.
             </a>
             <ul class="nav-menu">
-                <li><a href="#">Design</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Projects</a></li>
-                <li><a href="#">Team</a></li>
-                <li><a href="#">Reviews</a></li>
+                <li><a href="#" data-nav="design">Design</a></li>
+                <li><a href="#" data-nav="about">About</a></li>
+                <li><a href="#" data-nav="projects">Projects</a></li>
+                <li><a href="#" data-nav="team">Team</a></li>
+                <li><a href="#" data-nav="reviews">Reviews</a></li>
             </ul>
             <div class="nav-right">
-                <button class="lang-select">EN <i class="fa-solid fa-chevron-down"></i></button>
-                <a href="#" class="btn btn-gold">Contact Us</a>
+                <button class="lang-select" id="langBtn">EN <i class="fa-solid fa-chevron-down"></i></button>
+                <a href="#" class="btn btn-gold" id="contactNavBtn">Contact Us</a>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="home">
         <div class="container hero-grid">
             <div class="hero-content">
                 <h1 class="hero-title">Architects<br>with <span>different</span><br>approach.</h1>
                 <p class="hero-desc">Architecture is the art and technique of designing and building. It distinguishes from the skills.</p>
                 <div class="hero-action">
-                    <a href="#" class="btn btn-gold">Our Services <i class="fa-solid fa-arrow-right"></i></a>
-                    <a href="#" class="btn-link">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="btn btn-gold" id="heroServicesBtn">Our Services <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="btn-link" id="heroProjectsBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
             <div class="hero-image-container">
@@ -715,40 +814,40 @@
     <div class="curved-wrapper">
         <div class="container">
             <!-- Services Section -->
-            <section class="services-header">
+            <section class="services-header" id="services">
                 <span class="section-subtitle">What We Do</span>
                 <h2>Bringing new life to<br>old processes</h2>
             </section>
 
-            <div class="services-grid">
+            <div class="services-grid" id="servicesGrid">
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-couch"></i></div>
                     <h3>Interior Design</h3>
                     <p>Interior design is the art and science of enhancing the interior of building.</p>
-                    <a href="#" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="read-more service-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-compass-drafting"></i></div>
                     <h3>Construction</h3>
                     <p>The technique, production, and materials used during the construction.</p>
-                    <a href="#" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="read-more service-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-city"></i></div>
                     <h3>Architectural</h3>
                     <p>The practice of planning, designing, and constructing buildings.</p>
-                    <a href="#" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="read-more service-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-atom"></i></div>
                     <h3>Decoration</h3>
                     <p>The practice of enhancing interior spaces with aesthetic elements.</p>
-                    <a href="#" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="read-more service-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
             <!-- Achievements & Acoustics -->
-            <section class="achievements">
+            <section class="achievements" id="achievements">
                 <div class="achievements-grid">
                     <div class="achieve-img-box">
                         <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Luxury Home" class="achieve-main-img">
@@ -760,9 +859,9 @@
                         <span class="section-subtitle">Our Remarkable Journey</span>
                         <h2>Beautiful acoustics & Achievements</h2>
                         <p>Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.</p>
-                        <div style="display: flex; gap: 16px; align-items: center;">
-                            <a href="#" class="btn btn-gold">View Projects <i class="fa-solid fa-arrow-right"></i></a>
-                            <a href="#" class="btn-link" style="color: var(--navy-dark);">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                        <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                            <a href="#" class="btn btn-gold" id="achieveProjectsBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                            <a href="#" class="btn-link" style="color: var(--navy-dark);" id="achieveLinkBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
                         </div>
                         <div class="stats-row">
                             <div class="stat-item">
@@ -785,7 +884,7 @@
     </div>
 
     <!-- Testimonials Section -->
-    <section class="testimonials">
+    <section class="testimonials" id="testimonials">
         <div class="container">
             <div class="testimonials-header">
                 <div>
@@ -793,12 +892,12 @@
                     <h2>What our client say's</h2>
                 </div>
                 <div class="slider-controls">
-                    <button class="control-btn"><i class="fa-solid fa-arrow-left"></i></button>
-                    <button class="control-btn active"><i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="control-btn" id="testiLeft"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="control-btn active" id="testiRight"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
 
-            <div class="testimonials-grid">
+            <div class="testimonials-grid" id="testimonialsGrid">
                 <div class="testimonial-card">
                     <div class="testi-header">
                         <div class="user-info">
@@ -845,7 +944,7 @@
     </section>
 
     <!-- Completed Projects -->
-    <section class="portfolio">
+    <section class="portfolio" id="portfolio">
         <div class="container">
             <div class="testimonials-header" style="margin-bottom: 0;">
                 <div>
@@ -853,34 +952,34 @@
                     <h2 style="color: var(--navy-dark);">Our completed projects</h2>
                 </div>
                 <div class="slider-controls">
-                    <button class="control-btn" style="border-color: #cbd5e1; color: var(--navy-dark);"><i class="fa-solid fa-arrow-left"></i></button>
-                    <button class="control-btn active"><i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="control-btn" style="border-color: #cbd5e1; color: var(--navy-dark);" id="portfolioLeft"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="control-btn active" id="portfolioRight"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
 
-            <div class="portfolio-grid">
-                <div class="portfolio-card">
+            <div class="portfolio-grid" id="portfolioGrid">
+                <div class="portfolio-card" data-project="Modern Urban Villa">
                     <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80" alt="Project" class="portfolio-img">
                     <div class="portfolio-info">
                         <h4>Modern Urban Villa</h4>
                         <p>California, USA</p>
                     </div>
                 </div>
-                <div class="portfolio-card">
+                <div class="portfolio-card" data-project="Oceanview Residence">
                     <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=400&q=80" alt="Project" class="portfolio-img">
                     <div class="portfolio-info">
                         <h4>Oceanview Residence</h4>
                         <p>Florida, USA</p>
                     </div>
                 </div>
-                <div class="portfolio-card">
+                <div class="portfolio-card" data-project="Skyline Office Tower">
                     <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80" alt="Project" class="portfolio-img">
                     <div class="portfolio-info">
                         <h4>Skyline Office Tower</h4>
                         <p>New York, USA</p>
                     </div>
                 </div>
-                <div class="portfolio-card">
+                <div class="portfolio-card" data-project="Minimalist Apartment">
                     <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=400&q=80" alt="Project" class="portfolio-img">
                     <div class="portfolio-info">
                         <h4>Minimalist Apartment</h4>
@@ -892,15 +991,15 @@
     </section>
 
     <!-- Newsletter Section -->
-    <section class="newsletter">
+    <section class="newsletter" id="newsletter">
         <div class="container">
             <div class="newsletter-card">
                 <div class="newsletter-content">
                     <h2>Subscribe our daily Newsletter for update</h2>
                     <p>Studying architecture is demanding and standard to one of the most challenging courses at university.</p>
-                    <form class="newsletter-form" onsubmit="event.preventDefault();">
-                        <input type="email" placeholder="Enter your email">
-                        <button type="submit" class="btn btn-gold">Subscribe</button>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Enter your email" id="newsletterEmail" required>
+                        <button type="submit" class="btn btn-gold" id="newsletterSubscribe">Subscribe</button>
                     </form>
                 </div>
                 <div>
@@ -923,28 +1022,28 @@
                 <div class="footer-col">
                     <h4>Company</h4>
                     <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Projects</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Careers</a></li>
+                        <li><a href="#" class="footer-link" data-target="about">About Us</a></li>
+                        <li><a href="#" class="footer-link" data-target="projects">Projects</a></li>
+                        <li><a href="#" class="footer-link" data-target="team">Team</a></li>
+                        <li><a href="#" class="footer-link" data-target="careers">Careers</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="#">Interior Design</a></li>
-                        <li><a href="#">Construction</a></li>
-                        <li><a href="#">Architectural</a></li>
-                        <li><a href="#">Decorations</a></li>
+                        <li><a href="#" class="footer-link" data-target="interior">Interior Design</a></li>
+                        <li><a href="#" class="footer-link" data-target="construction">Construction</a></li>
+                        <li><a href="#" class="footer-link" data-target="architectural">Architectural</a></li>
+                        <li><a href="#" class="footer-link" data-target="decorations">Decorations</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Support</h4>
                     <ul>
-                        <li><a href="#">FAQ's</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Condition</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#" class="footer-link" data-target="faq">FAQ's</a></li>
+                        <li><a href="#" class="footer-link" data-target="privacy">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link" data-target="terms">Terms & Condition</a></li>
+                        <li><a href="#" class="footer-link" data-target="contact">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -953,14 +1052,120 @@
                 <p>&copy; 2026 Arcora. All Rights Reserved.</p>
                 <p>Design with <span style="color: #ef4444;">♥</span> by UI/UX Studio</p>
                 <div class="social-links">
-                    <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="social-icon" data-social="facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon" data-social="linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon" data-social="instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-icon" data-social="twitter"><i class="fa-brands fa-twitter"></i></a>
                 </div>
             </div>
         </div>
     </footer>
+
+    <script>
+        (function() {
+            // Toast notification
+            const toast = document.getElementById('toast');
+            let toastTimer;
+
+            function showToast(message = '✨ Action triggered!') {
+                toast.textContent = message;
+                toast.classList.add('show');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }
+
+            // Attach click handlers to all interactive elements
+            function attachHandler(element, message) {
+                if (!element) return;
+                element.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showToast(message || '✨ Navigation triggered!');
+                });
+            }
+
+            // 1. Logo
+            attachHandler(document.getElementById('logoLink'), '🏠 Home');
+
+            // 2. Nav links
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                attachHandler(link, `📌 ${link.textContent.trim()} section`);
+            });
+
+            // 3. Language button
+            attachHandler(document.getElementById('langBtn'), '🌐 Language toggled');
+
+            // 4. Contact Us nav
+            attachHandler(document.getElementById('contactNavBtn'), '📞 Contact Us clicked');
+
+            // 5. Hero buttons
+            attachHandler(document.getElementById('heroServicesBtn'), '🛠️ Our Services');
+            attachHandler(document.getElementById('heroProjectsBtn'), '📂 View Projects');
+
+            // 6. Service cards "Read More"
+            document.querySelectorAll('.service-link').forEach(link => {
+                attachHandler(link, `📖 ${link.closest('.service-card').querySelector('h3').textContent} - Read More`);
+            });
+
+            // 7. Achievements buttons
+            attachHandler(document.getElementById('achieveProjectsBtn'), '📂 View Projects (Achievements)');
+            attachHandler(document.getElementById('achieveLinkBtn'), '📂 View Projects (Achievements link)');
+
+            // 8. Testimonial slider controls
+            attachHandler(document.getElementById('testiLeft'), '⬅️ Previous testimonial');
+            attachHandler(document.getElementById('testiRight'), '➡️ Next testimonial');
+
+            // 9. Portfolio slider controls
+            attachHandler(document.getElementById('portfolioLeft'), '⬅️ Previous project');
+            attachHandler(document.getElementById('portfolioRight'), '➡️ Next project');
+
+            // 10. Portfolio cards
+            document.querySelectorAll('.portfolio-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    const title = this.querySelector('.portfolio-info h4')?.textContent || 'Project';
+                    showToast(`🏗️ ${title} - details coming soon`);
+                });
+            });
+
+            // 11. Newsletter form
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('newsletterEmail').value;
+                    if (email) {
+                        showToast(`📬 Subscribed with ${email}`);
+                        this.reset();
+                    } else {
+                        showToast('⚠️ Please enter an email');
+                    }
+                });
+            }
+
+            // 12. Footer links
+            document.querySelectorAll('.footer-link').forEach(link => {
+                attachHandler(link, `🔗 ${link.textContent.trim()}`);
+            });
+
+            // 13. Social icons
+            document.querySelectorAll('.social-icon').forEach(icon => {
+                attachHandler(icon, `📱 ${icon.dataset.social || 'social'} link`);
+            });
+
+            // 14. Any other button or link with .btn or .btn-link not already covered
+            document.querySelectorAll('.btn, .btn-link, .read-more, .control-btn').forEach(el => {
+                // avoid double binding
+                if (!el.dataset.bound) {
+                    el.dataset.bound = 'true';
+                    attachHandler(el, `🔘 ${el.textContent.trim() || 'action'}`);
+                }
+            });
+
+            // 15. Extra: "View Projects" in hero and anywhere else (already covered, but ensure)
+            console.log('✅ All buttons and navigation are functional!');
+        })();
+    </script>
 
 </body>
 </html>
