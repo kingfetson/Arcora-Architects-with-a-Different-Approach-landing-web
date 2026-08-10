@@ -33,6 +33,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: var(--sans-font);
             background-color: var(--navy-dark);
@@ -110,10 +114,13 @@
 
         /* Navigation */
         header {
-            padding: 28px 0;
-            background: transparent;
-            position: relative;
-            z-index: 10;
+            padding: 20px 0;
+            background: rgba(10, 24, 40, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .nav-wrapper {
@@ -146,10 +153,31 @@
             gap: 36px;
             color: var(--white);
             font-size: 14px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            transition: color 0.2s;
+            position: relative;
         }
 
         .nav-menu a:hover {
             color: var(--gold);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
         }
 
         .nav-right {
@@ -169,11 +197,83 @@
             gap: 4px;
         }
 
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 2px;
+            background: var(--white);
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(10, 24, 40, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 99;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            color: var(--white);
+            font-size: 22px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--gold);
+        }
+
+        .mobile-menu .btn-gold {
+            font-size: 18px;
+            padding: 14px 40px;
+        }
+
         /* Hero Section */
         .hero {
             position: relative;
-            padding: 60px 0 160px;
+            padding: 40px 0 120px;
             color: var(--white);
+            scroll-margin-top: 80px;
         }
 
         .hero-grid {
@@ -339,6 +439,7 @@
         /* Achievements / Acoustics Section */
         .achievements {
             padding: 100px 0 40px;
+            scroll-margin-top: 80px;
         }
 
         .achievements-grid {
@@ -411,6 +512,7 @@
             background-color: var(--navy-dark);
             padding: 100px 0;
             color: var(--white);
+            scroll-margin-top: 80px;
         }
 
         .testimonials-header {
@@ -515,6 +617,7 @@
         .portfolio {
             padding: 100px 0;
             background-color: var(--ivory);
+            scroll-margin-top: 80px;
         }
 
         .portfolio-grid {
@@ -559,10 +662,11 @@
             color: #64748b;
         }
 
-        /* Newsletter Banner */
+        /* Newsletter Section */
         .newsletter {
             padding: 60px 0 100px;
             background-color: var(--navy-dark);
+            scroll-margin-top: 80px;
         }
 
         .newsletter-card {
@@ -691,52 +795,6 @@
             border-color: var(--gold);
         }
 
-        /* Responsive */
-        @media (max-width: 992px) {
-            .hero-grid, .achievements-grid, .newsletter-card {
-                grid-template-columns: 1fr;
-            }
-            .services-grid, .testimonials-grid, .portfolio-grid, .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .hero-title {
-                font-size: 44px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .nav-menu {
-                display: none;
-            }
-            .services-grid, .testimonials-grid, .portfolio-grid, .footer-grid {
-                grid-template-columns: 1fr;
-            }
-            .hero-title {
-                font-size: 34px;
-            }
-            .hero-image-container .sub-arch-img {
-                display: none;
-            }
-            .arch-badge {
-                left: 10px;
-                top: 10px;
-                width: 60px;
-                height: 60px;
-            }
-            .arch-badge .num {
-                font-size: 14px;
-            }
-            .newsletter-card {
-                padding: 30px;
-            }
-            .main-arch-img {
-                height: 320px;
-            }
-            .achieve-main-img {
-                height: 320px;
-            }
-        }
-
         /* Toast notification */
         .toast {
             position: fixed;
@@ -761,6 +819,173 @@
             opacity: 1;
             pointer-events: auto;
         }
+
+        /* Contact Modal */
+        .contact-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .contact-modal.open {
+            display: flex;
+        }
+
+        .contact-card {
+            background: var(--navy-card);
+            border: 1px solid var(--border-dark);
+            border-radius: 20px;
+            padding: 48px 40px;
+            max-width: 480px;
+            width: 100%;
+            color: var(--white);
+            position: relative;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .contact-card .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .contact-card .close-modal:hover {
+            color: var(--white);
+            transform: rotate(90deg);
+        }
+
+        .contact-card h2 {
+            font-family: var(--serif-font);
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .contact-card p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .contact-card .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .contact-card .contact-item i {
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-card .contact-item a {
+            color: var(--text-light);
+            transition: 0.2s;
+        }
+
+        .contact-card .contact-item a:hover {
+            color: var(--gold);
+        }
+
+        /* Section IDs for navigation */
+        #design, #about, #projects, #team, #reviews {
+            scroll-margin-top: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-grid, .achievements-grid, .newsletter-card {
+                grid-template-columns: 1fr;
+            }
+            .services-grid, .testimonials-grid, .portfolio-grid, .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-title {
+                font-size: 44px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .nav-right .btn-gold {
+                display: none;
+            }
+            .nav-right .lang-select {
+                display: none;
+            }
+            .hero-title {
+                font-size: 38px;
+            }
+            .services-grid, .testimonials-grid, .portfolio-grid, .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-image-container .sub-arch-img {
+                display: none;
+            }
+            .arch-badge {
+                left: 10px;
+                top: 10px;
+                width: 60px;
+                height: 60px;
+            }
+            .arch-badge .num {
+                font-size: 14px;
+            }
+            .newsletter-card {
+                padding: 30px;
+            }
+            .main-arch-img {
+                height: 320px;
+            }
+            .achieve-main-img {
+                height: 320px;
+            }
+            .contact-card {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 30px;
+            }
+            .testimonials-header h2 {
+                font-size: 28px;
+            }
+            .achieve-content h2 {
+                font-size: 28px;
+            }
+            .services-header h2 {
+                font-size: 28px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -768,25 +993,70 @@
     <!-- Toast Notification -->
     <div id="toast" class="toast">✨ Action triggered!</div>
 
+    <!-- Contact Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-card">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2>📬 Contact Us</h2>
+            <p>We'd love to hear from you. Reach out through any of the channels below.</p>
+            <div class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <a href="mailto:hello@arcora.com">hello@arcora.com</a>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <a href="tel:+1234567890">+1 (234) 567-890</a>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>123 Design District, NY 10001</span>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-clock"></i>
+                <span>Mon–Fri: 9:00 AM – 6:00 PM</span>
+            </div>
+            <div style="margin-top: 24px; display: flex; gap: 12px;">
+                <a href="#" class="btn btn-gold" style="flex:1; justify-content:center;" id="modalEmailBtn">Email Us</a>
+                <a href="#" class="btn" style="flex:1; justify-content:center; border:1px solid var(--border-dark); color:var(--white);" id="modalCallBtn">Call Now</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Header Section -->
     <header>
         <div class="container nav-wrapper">
-            <a href="#" class="logo" id="logoLink">
+            <a href="#home" class="logo" id="logoLink">
                 <div class="logo-icon"></div> Arcora.
             </a>
             <ul class="nav-menu">
-                <li><a href="#" data-nav="design">Design</a></li>
-                <li><a href="#" data-nav="about">About</a></li>
-                <li><a href="#" data-nav="projects">Projects</a></li>
-                <li><a href="#" data-nav="team">Team</a></li>
-                <li><a href="#" data-nav="reviews">Reviews</a></li>
+                <li><a href="#design">Design</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#contact" class="btn btn-gold" id="contactNavBtn" style="padding:8px 20px; font-size:13px;">Contact Us</a></li>
             </ul>
             <div class="nav-right">
                 <button class="lang-select" id="langBtn">EN <i class="fa-solid fa-chevron-down"></i></button>
-                <a href="#" class="btn btn-gold" id="contactNavBtn">Contact Us</a>
+                <a href="#contact" class="btn btn-gold" id="contactNavBtnMobile">Contact Us</a>
+                <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#design">Design</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#team">Team</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact" class="btn btn-gold" id="mobileContactBtn" style="margin-top:10px;">Contact Us</a>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -795,8 +1065,8 @@
                 <h1 class="hero-title">Architects<br>with <span>different</span><br>approach.</h1>
                 <p class="hero-desc">Architecture is the art and technique of designing and building. It distinguishes from the skills.</p>
                 <div class="hero-action">
-                    <a href="#" class="btn btn-gold" id="heroServicesBtn">Our Services <i class="fa-solid fa-arrow-right"></i></a>
-                    <a href="#" class="btn-link" id="heroProjectsBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#design" class="btn btn-gold" id="heroServicesBtn">Our Services <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#projects" class="btn-link" id="heroProjectsBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
             <div class="hero-image-container">
@@ -814,7 +1084,7 @@
     <div class="curved-wrapper">
         <div class="container">
             <!-- Services Section -->
-            <section class="services-header" id="services">
+            <section class="services-header" id="design">
                 <span class="section-subtitle">What We Do</span>
                 <h2>Bringing new life to<br>old processes</h2>
             </section>
@@ -847,7 +1117,7 @@
             </div>
 
             <!-- Achievements & Acoustics -->
-            <section class="achievements" id="achievements">
+            <section class="achievements" id="about">
                 <div class="achievements-grid">
                     <div class="achieve-img-box">
                         <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Luxury Home" class="achieve-main-img">
@@ -860,8 +1130,8 @@
                         <h2>Beautiful acoustics & Achievements</h2>
                         <p>Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.</p>
                         <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
-                            <a href="#" class="btn btn-gold" id="achieveProjectsBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
-                            <a href="#" class="btn-link" style="color: var(--navy-dark);" id="achieveLinkBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                            <a href="#projects" class="btn btn-gold" id="achieveProjectsBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                            <a href="#projects" class="btn-link" style="color: var(--navy-dark);" id="achieveLinkBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
                         </div>
                         <div class="stats-row">
                             <div class="stat-item">
@@ -884,7 +1154,7 @@
     </div>
 
     <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
+    <section class="testimonials" id="reviews">
         <div class="container">
             <div class="testimonials-header">
                 <div>
@@ -944,7 +1214,7 @@
     </section>
 
     <!-- Completed Projects -->
-    <section class="portfolio" id="portfolio">
+    <section class="portfolio" id="projects">
         <div class="container">
             <div class="testimonials-header" style="margin-bottom: 0;">
                 <div>
@@ -991,7 +1261,7 @@
     </section>
 
     <!-- Newsletter Section -->
-    <section class="newsletter" id="newsletter">
+    <section class="newsletter" id="team">
         <div class="container">
             <div class="newsletter-card">
                 <div class="newsletter-content">
@@ -1009,6 +1279,9 @@
         </div>
     </section>
 
+    <!-- Contact Section (hidden anchor) -->
+    <div id="contact" style="scroll-margin-top: 80px;"></div>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1022,28 +1295,28 @@
                 <div class="footer-col">
                     <h4>Company</h4>
                     <ul>
-                        <li><a href="#" class="footer-link" data-target="about">About Us</a></li>
-                        <li><a href="#" class="footer-link" data-target="projects">Projects</a></li>
-                        <li><a href="#" class="footer-link" data-target="team">Team</a></li>
-                        <li><a href="#" class="footer-link" data-target="careers">Careers</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#team">Team</a></li>
+                        <li><a href="#contact">Careers</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="#" class="footer-link" data-target="interior">Interior Design</a></li>
-                        <li><a href="#" class="footer-link" data-target="construction">Construction</a></li>
-                        <li><a href="#" class="footer-link" data-target="architectural">Architectural</a></li>
-                        <li><a href="#" class="footer-link" data-target="decorations">Decorations</a></li>
+                        <li><a href="#design">Interior Design</a></li>
+                        <li><a href="#design">Construction</a></li>
+                        <li><a href="#design">Architectural</a></li>
+                        <li><a href="#design">Decorations</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Support</h4>
                     <ul>
-                        <li><a href="#" class="footer-link" data-target="faq">FAQ's</a></li>
-                        <li><a href="#" class="footer-link" data-target="privacy">Privacy Policy</a></li>
-                        <li><a href="#" class="footer-link" data-target="terms">Terms & Condition</a></li>
-                        <li><a href="#" class="footer-link" data-target="contact">Contact Us</a></li>
+                        <li><a href="#contact">FAQ's</a></li>
+                        <li><a href="#contact">Privacy Policy</a></li>
+                        <li><a href="#contact">Terms & Condition</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -1076,51 +1349,130 @@
                 }, 2000);
             }
 
-            // Attach click handlers to all interactive elements
-            function attachHandler(element, message) {
-                if (!element) return;
-                element.addEventListener('click', function(e) {
+            // Contact Modal
+            const modal = document.getElementById('contactModal');
+            const closeModalBtn = document.getElementById('closeModal');
+
+            function openContactModal() {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeContactModal() {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            closeModalBtn.addEventListener('click', closeContactModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) closeContactModal();
+            });
+
+            // Attach contact modal to all Contact Us buttons (except nav ones that scroll)
+            // Only mobile menu contact button opens modal, nav ones scroll to #contact
+            const mobileContactBtn = document.getElementById('mobileContactBtn');
+            if (mobileContactBtn) {
+                mobileContactBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    showToast(message || '✨ Navigation triggered!');
+                    openContactModal();
                 });
             }
 
-            // 1. Logo
-            attachHandler(document.getElementById('logoLink'), '🏠 Home');
-
-            // 2. Nav links
-            document.querySelectorAll('.nav-menu a').forEach(link => {
-                attachHandler(link, `📌 ${link.textContent.trim()} section`);
+            // Also any footer contact links open modal
+            document.querySelectorAll('.footer-col a[href="#contact"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openContactModal();
+                });
             });
 
-            // 3. Language button
-            attachHandler(document.getElementById('langBtn'), '🌐 Language toggled');
+            // Modal inner buttons
+            document.getElementById('modalEmailBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showToast('📧 Opening email client...');
+                closeContactModal();
+            });
 
-            // 4. Contact Us nav
-            attachHandler(document.getElementById('contactNavBtn'), '📞 Contact Us clicked');
+            document.getElementById('modalCallBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showToast('📞 Calling +1 (234) 567-890');
+                closeContactModal();
+            });
 
-            // 5. Hero buttons
-            attachHandler(document.getElementById('heroServicesBtn'), '🛠️ Our Services');
-            attachHandler(document.getElementById('heroProjectsBtn'), '📂 View Projects');
+            // Hamburger menu
+            const hamburger = document.getElementById('hamburgerBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
 
-            // 6. Service cards "Read More"
+            hamburger.addEventListener('click', function() {
+                this.classList.toggle('active');
+                mobileMenu.classList.toggle('open');
+                document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+            });
+
+            // Close mobile menu on link click
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            // Smooth scroll for all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        // Show toast for navigation feedback
+                        const text = this.textContent.trim() || 'section';
+                        showToast(`📌 Navigating to ${text}`);
+                    }
+                });
+            });
+
+            // Language button
+            document.getElementById('langBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showToast('🌐 Language toggled');
+            });
+
+            // Service cards "Read More"
             document.querySelectorAll('.service-link').forEach(link => {
-                attachHandler(link, `📖 ${link.closest('.service-card').querySelector('h3').textContent} - Read More`);
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const title = this.closest('.service-card').querySelector('h3').textContent;
+                    showToast(`📖 ${title} - Read More`);
+                });
             });
 
-            // 7. Achievements buttons
-            attachHandler(document.getElementById('achieveProjectsBtn'), '📂 View Projects (Achievements)');
-            attachHandler(document.getElementById('achieveLinkBtn'), '📂 View Projects (Achievements link)');
+            // Testimonial slider controls
+            document.getElementById('testiLeft')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showToast('⬅️ Previous testimonial');
+            });
+            document.getElementById('testiRight')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showToast('➡️ Next testimonial');
+            });
 
-            // 8. Testimonial slider controls
-            attachHandler(document.getElementById('testiLeft'), '⬅️ Previous testimonial');
-            attachHandler(document.getElementById('testiRight'), '➡️ Next testimonial');
+            // Portfolio slider controls
+            document.getElementById('portfolioLeft')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showToast('⬅️ Previous project');
+            });
+            document.getElementById('portfolioRight')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showToast('➡️ Next project');
+            });
 
-            // 9. Portfolio slider controls
-            attachHandler(document.getElementById('portfolioLeft'), '⬅️ Previous project');
-            attachHandler(document.getElementById('portfolioRight'), '➡️ Next project');
-
-            // 10. Portfolio cards
+            // Portfolio cards
             document.querySelectorAll('.portfolio-card').forEach(card => {
                 card.addEventListener('click', function(e) {
                     const title = this.querySelector('.portfolio-info h4')?.textContent || 'Project';
@@ -1128,7 +1480,7 @@
                 });
             });
 
-            // 11. Newsletter form
+            // Newsletter form
             const newsletterForm = document.getElementById('newsletterForm');
             if (newsletterForm) {
                 newsletterForm.addEventListener('submit', function(e) {
@@ -1143,27 +1495,15 @@
                 });
             }
 
-            // 12. Footer links
-            document.querySelectorAll('.footer-link').forEach(link => {
-                attachHandler(link, `🔗 ${link.textContent.trim()}`);
-            });
-
-            // 13. Social icons
+            // Social icons
             document.querySelectorAll('.social-icon').forEach(icon => {
-                attachHandler(icon, `📱 ${icon.dataset.social || 'social'} link`);
+                icon.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showToast(`📱 ${this.dataset.social || 'social'} link`);
+                });
             });
 
-            // 14. Any other button or link with .btn or .btn-link not already covered
-            document.querySelectorAll('.btn, .btn-link, .read-more, .control-btn').forEach(el => {
-                // avoid double binding
-                if (!el.dataset.bound) {
-                    el.dataset.bound = 'true';
-                    attachHandler(el, `🔘 ${el.textContent.trim() || 'action'}`);
-                }
-            });
-
-            // 15. Extra: "View Projects" in hero and anywhere else (already covered, but ensure)
-            console.log('✅ All buttons and navigation are functional!');
+            console.log('✅ All navigation links scroll to sections, contact modal works!');
         })();
     </script>
 
