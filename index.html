@@ -217,13 +217,15 @@
             top: 100%;
             right: 0;
             background: var(--navy-card);
-            min-width: 140px;
+            min-width: 160px;
             border-radius: 8px;
             border: 1px solid var(--border-dark);
             box-shadow: 0 8px 24px rgba(0,0,0,0.4);
             overflow: hidden;
             margin-top: 4px;
             z-index: 200;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .lang-dropdown-content.open {
@@ -246,6 +248,10 @@
         .lang-dropdown-content a.active {
             background: rgba(212, 163, 89, 0.2);
             color: var(--gold);
+        }
+
+        .lang-dropdown-content a .lang-flag {
+            margin-right: 8px;
         }
 
         /* Hamburger */
@@ -1062,8 +1068,8 @@
     <div class="contact-modal" id="contactModal">
         <div class="contact-card">
             <button class="close-modal" id="closeModal">&times;</button>
-            <h2>📬 Contact Us</h2>
-            <p>We'd love to hear from you. Reach out through any of the channels below.</p>
+            <h2 id="contactTitle">📬 Contact Us</h2>
+            <p id="contactDesc">We'd love to hear from you. Reach out through any of the channels below.</p>
             <div class="contact-item">
                 <i class="fa-solid fa-envelope"></i>
                 <a href="mailto:hello@arcora.com">hello@arcora.com</a>
@@ -1074,11 +1080,11 @@
             </div>
             <div class="contact-item">
                 <i class="fa-solid fa-location-dot"></i>
-                <span>123 Design District, NY 10001</span>
+                <span id="contactAddress">123 Design District, NY 10001</span>
             </div>
             <div class="contact-item">
                 <i class="fa-solid fa-clock"></i>
-                <span>Mon–Fri: 9:00 AM – 6:00 PM</span>
+                <span id="contactHours">Mon–Fri: 9:00 AM – 6:00 PM</span>
             </div>
             <div class="modal-actions">
                 <a href="#" class="btn btn-gold" id="modalEmailBtn">Email Us</a>
@@ -1094,12 +1100,12 @@
                 <div class="logo-icon"></div> Arcora.
             </a>
             <ul class="nav-menu">
-                <li><a href="#design">Design</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="#reviews">Reviews</a></li>
-                <li><a href="#" class="btn btn-gold" id="contactNavBtn" style="padding:8px 20px; font-size:13px;">Contact Us</a></li>
+                <li><a href="#design" data-translate="Design">Design</a></li>
+                <li><a href="#about" data-translate="About">About</a></li>
+                <li><a href="#projects" data-translate="Projects">Projects</a></li>
+                <li><a href="#team" data-translate="Team">Team</a></li>
+                <li><a href="#reviews" data-translate="Reviews">Reviews</a></li>
+                <li><a href="#" class="btn btn-gold" id="contactNavBtn" style="padding:8px 20px; font-size:13px;" data-translate="Contact Us">Contact Us</a></li>
             </ul>
             <div class="nav-right">
                 <!-- Language Dropdown -->
@@ -1108,16 +1114,16 @@
                         <span id="currentLang">EN</span> <i class="fa-solid fa-chevron-down"></i>
                     </button>
                     <div class="lang-dropdown-content" id="langDropdown">
-                        <a href="#" data-lang="EN" class="active">🇬🇧 English</a>
-                        <a href="#" data-lang="ES">🇪🇸 Español</a>
-                        <a href="#" data-lang="FR">🇫🇷 Français</a>
-                        <a href="#" data-lang="DE">🇩🇪 Deutsch</a>
-                        <a href="#" data-lang="IT">🇮🇹 Italiano</a>
-                        <a href="#" data-lang="PT">🇵🇹 Português</a>
-                        <a href="#" data-lang="RU">🇷🇺 Русский</a>
-                        <a href="#" data-lang="AR">🇸🇦 العربية</a>
-                        <a href="#" data-lang="ZH">🇨🇳 中文</a>
-                        <a href="#" data-lang="JA">🇯🇵 日本語</a>
+                        <a href="#" data-lang="EN" data-flag="🇬🇧" class="active">🇬🇧 English</a>
+                        <a href="#" data-lang="ES" data-flag="🇪🇸">🇪🇸 Español</a>
+                        <a href="#" data-lang="FR" data-flag="🇫🇷">🇫🇷 Français</a>
+                        <a href="#" data-lang="DE" data-flag="🇩🇪">🇩🇪 Deutsch</a>
+                        <a href="#" data-lang="IT" data-flag="🇮🇹">🇮🇹 Italiano</a>
+                        <a href="#" data-lang="PT" data-flag="🇵🇹">🇵🇹 Português</a>
+                        <a href="#" data-lang="RU" data-flag="🇷🇺">🇷🇺 Русский</a>
+                        <a href="#" data-lang="AR" data-flag="🇸🇦">🇸🇦 العربية</a>
+                        <a href="#" data-lang="ZH" data-flag="🇨🇳">🇨🇳 中文</a>
+                        <a href="#" data-lang="JA" data-flag="🇯🇵">🇯🇵 日本語</a>
                     </div>
                 </div>
                 <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -1131,29 +1137,29 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#design">Design</a>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#team">Team</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#" class="btn btn-gold" id="mobileContactBtn" style="margin-top:10px;">Contact Us</a>
+        <a href="#design" data-translate="Design">Design</a>
+        <a href="#about" data-translate="About">About</a>
+        <a href="#projects" data-translate="Projects">Projects</a>
+        <a href="#team" data-translate="Team">Team</a>
+        <a href="#reviews" data-translate="Reviews">Reviews</a>
+        <a href="#" class="btn btn-gold" id="mobileContactBtn" style="margin-top:10px;" data-translate="Contact Us">Contact Us</a>
     </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container hero-grid">
             <div class="hero-content">
-                <h1 class="hero-title">Architects<br>with <span>different</span><br>approach.</h1>
-                <p class="hero-desc">Architecture is the art and technique of designing and building. It distinguishes from the skills.</p>
+                <h1 class="hero-title" id="heroTitle">Architects<br>with <span>different</span><br>approach.</h1>
+                <p class="hero-desc" id="heroDesc">Architecture is the art and technique of designing and building. It distinguishes from the skills.</p>
                 <div class="hero-action">
-                    <a href="#design" class="btn btn-gold" id="heroServicesBtn">Our Services <i class="fa-solid fa-arrow-right"></i></a>
-                    <a href="#projects" class="btn-link" id="heroProjectsBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#design" class="btn btn-gold" id="heroServicesBtn" data-translate="Our Services">Our Services <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#projects" class="btn-link" id="heroProjectsBtn" data-translate="View Projects">View Projects <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
             <div class="hero-image-container">
                 <div class="arch-badge">
                     <span class="num">15+</span>
-                    <span class="txt">Years of experience</span>
+                    <span class="txt" id="yearsText">Years of experience</span>
                 </div>
                 <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Modern Architecture" class="main-arch-img">
                 <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400&q=80" alt="Villa Exterior" class="sub-arch-img">
@@ -1166,34 +1172,34 @@
         <div class="container">
             <!-- Services Section -->
             <section class="services-header" id="design">
-                <span class="section-subtitle">What We Do</span>
-                <h2>Bringing new life to<br>old processes</h2>
+                <span class="section-subtitle" id="whatWeDo">What We Do</span>
+                <h2 id="bringingLife">Bringing new life to<br>old processes</h2>
             </section>
 
             <div class="services-grid" id="servicesGrid">
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-couch"></i></div>
-                    <h3>Interior Design</h3>
-                    <p>Interior design is the art and science of enhancing the interior of building.</p>
-                    <a href="#" class="read-more service-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                    <h3 id="service1Title">Interior Design</h3>
+                    <p id="service1Desc">Interior design is the art and science of enhancing the interior of building.</p>
+                    <a href="#" class="read-more service-link" data-translate="Read More">Read More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-compass-drafting"></i></div>
-                    <h3>Construction</h3>
-                    <p>The technique, production, and materials used during the construction.</p>
-                    <a href="#" class="read-more service-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                    <h3 id="service2Title">Construction</h3>
+                    <p id="service2Desc">The technique, production, and materials used during the construction.</p>
+                    <a href="#" class="read-more service-link" data-translate="Read More">Read More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-city"></i></div>
-                    <h3>Architectural</h3>
-                    <p>The practice of planning, designing, and constructing buildings.</p>
-                    <a href="#" class="read-more service-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                    <h3 id="service3Title">Architectural</h3>
+                    <p id="service3Desc">The practice of planning, designing, and constructing buildings.</p>
+                    <a href="#" class="read-more service-link" data-translate="Read More">Read More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
                 <div class="service-card">
                     <div class="service-icon"><i class="fa-solid fa-atom"></i></div>
-                    <h3>Decoration</h3>
-                    <p>The practice of enhancing interior spaces with aesthetic elements.</p>
-                    <a href="#" class="read-more service-link">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                    <h3 id="service4Title">Decoration</h3>
+                    <p id="service4Desc">The practice of enhancing interior spaces with aesthetic elements.</p>
+                    <a href="#" class="read-more service-link" data-translate="Read More">Read More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
 
@@ -1202,30 +1208,30 @@
                 <div class="achievements-grid">
                     <div class="achieve-img-box">
                         <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Luxury Home" class="achieve-main-img">
-                        <div class="award-badge">
+                        <div class="award-badge" id="awardBadge">
                             Award<br>Winning<br>Designer
                         </div>
                     </div>
                     <div class="achieve-content">
-                        <span class="section-subtitle">Our Remarkable Journey</span>
-                        <h2>Beautiful acoustics & Achievements</h2>
-                        <p>Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.</p>
+                        <span class="section-subtitle" id="journeyTitle">Our Remarkable Journey</span>
+                        <h2 id="acousticsTitle">Beautiful acoustics & Achievements</h2>
+                        <p id="achieveDesc">Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.</p>
                         <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
-                            <a href="#projects" class="btn btn-gold" id="achieveProjectsBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
-                            <a href="#projects" class="btn-link" style="color: var(--navy-dark);" id="achieveLinkBtn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                            <a href="#projects" class="btn btn-gold" id="achieveProjectsBtn" data-translate="View Projects">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                            <a href="#projects" class="btn-link" style="color: var(--navy-dark);" id="achieveLinkBtn" data-translate="View Projects">View Projects <i class="fa-solid fa-arrow-right"></i></a>
                         </div>
                         <div class="stats-row">
                             <div class="stat-item">
                                 <h3>12+</h3>
-                                <p>Years of Experience</p>
+                                <p id="stat1">Years of Experience</p>
                             </div>
                             <div class="stat-item">
                                 <h3>246+</h3>
-                                <p>Projects Completed</p>
+                                <p id="stat2">Projects Completed</p>
                             </div>
                             <div class="stat-item">
                                 <h3>42+</h3>
-                                <p>Awards Received</p>
+                                <p id="stat3">Awards Received</p>
                             </div>
                         </div>
                     </div>
@@ -1239,8 +1245,8 @@
         <div class="container">
             <div class="testimonials-header">
                 <div>
-                    <span class="section-subtitle">Testimonials</span>
-                    <h2>What our client say's</h2>
+                    <span class="section-subtitle" id="testimonialsLabel">Testimonials</span>
+                    <h2 id="clientSay">What our client say's</h2>
                 </div>
                 <div class="slider-controls">
                     <button class="control-btn" id="testiLeft"><i class="fa-solid fa-arrow-left"></i></button>
@@ -1299,8 +1305,8 @@
         <div class="container">
             <div class="testimonials-header" style="margin-bottom: 0;">
                 <div>
-                    <span class="section-subtitle">Our Featured Portfolio</span>
-                    <h2 style="color: var(--navy-dark);">Our completed projects</h2>
+                    <span class="section-subtitle" id="portfolioLabel">Our Featured Portfolio</span>
+                    <h2 style="color: var(--navy-dark);" id="completedProjects">Our completed projects</h2>
                 </div>
                 <div class="slider-controls">
                     <button class="control-btn" style="border-color: #cbd5e1; color: var(--navy-dark);" id="portfolioLeft"><i class="fa-solid fa-arrow-left"></i></button>
@@ -1346,11 +1352,11 @@
         <div class="container">
             <div class="newsletter-card">
                 <div class="newsletter-content">
-                    <h2>Subscribe our daily Newsletter for update</h2>
-                    <p>Studying architecture is demanding and standard to one of the most challenging courses at university.</p>
+                    <h2 id="newsletterTitle">Subscribe our daily Newsletter for update</h2>
+                    <p id="newsletterDesc">Studying architecture is demanding and standard to one of the most challenging courses at university.</p>
                     <form class="newsletter-form" id="newsletterForm">
                         <input type="email" placeholder="Enter your email" id="newsletterEmail" required>
-                        <button type="submit" class="btn btn-gold" id="newsletterSubscribe">Subscribe</button>
+                        <button type="submit" class="btn btn-gold" id="newsletterSubscribe" data-translate="Subscribe">Subscribe</button>
                     </form>
                 </div>
                 <div>
@@ -1368,39 +1374,39 @@
                     <div class="footer-logo logo">
                         <div class="logo-icon"></div> Arcora.
                     </div>
-                    <p>Architecture is the art and technique of designing and building. It distinguishes from the skills.</p>
+                    <p id="footerDesc">Architecture is the art and technique of designing and building. It distinguishes from the skills.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>Company</h4>
+                    <h4 id="footerCompany">Company</h4>
                     <ul>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#team">Team</a></li>
-                        <li><a href="#" class="footer-contact">Careers</a></li>
+                        <li><a href="#about" data-translate="About Us">About Us</a></li>
+                        <li><a href="#projects" data-translate="Projects">Projects</a></li>
+                        <li><a href="#team" data-translate="Team">Team</a></li>
+                        <li><a href="#" class="footer-contact" data-translate="Careers">Careers</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Services</h4>
+                    <h4 id="footerServices">Services</h4>
                     <ul>
-                        <li><a href="#design">Interior Design</a></li>
-                        <li><a href="#design">Construction</a></li>
-                        <li><a href="#design">Architectural</a></li>
-                        <li><a href="#design">Decorations</a></li>
+                        <li><a href="#design" data-translate="Interior Design">Interior Design</a></li>
+                        <li><a href="#design" data-translate="Construction">Construction</a></li>
+                        <li><a href="#design" data-translate="Architectural">Architectural</a></li>
+                        <li><a href="#design" data-translate="Decorations">Decorations</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Support</h4>
+                    <h4 id="footerSupport">Support</h4>
                     <ul>
-                        <li><a href="#" class="footer-contact">FAQ's</a></li>
-                        <li><a href="#" class="footer-contact">Privacy Policy</a></li>
-                        <li><a href="#" class="footer-contact">Terms & Condition</a></li>
-                        <li><a href="#" class="footer-contact">Contact Us</a></li>
+                        <li><a href="#" class="footer-contact" data-translate="FAQ's">FAQ's</a></li>
+                        <li><a href="#" class="footer-contact" data-translate="Privacy Policy">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-contact" data-translate="Terms & Condition">Terms & Condition</a></li>
+                        <li><a href="#" class="footer-contact" data-translate="Contact Us">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Arcora. All Rights Reserved.</p>
+                <p id="copyright">&copy; 2026 Arcora. All Rights Reserved.</p>
                 <p>Design with <span style="color: #ef4444;">♥</span> by UI/UX Studio</p>
                 <div class="social-links">
                     <a href="#" class="social-icon" data-social="facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -1414,7 +1420,472 @@
 
     <script>
         (function() {
-            // Toast notification - only for non-nav actions
+            // Language translations
+            const translations = {
+                'EN': {
+                    'Design': 'Design',
+                    'About': 'About',
+                    'Projects': 'Projects',
+                    'Team': 'Team',
+                    'Reviews': 'Reviews',
+                    'Contact Us': 'Contact Us',
+                    'Our Services': 'Our Services',
+                    'View Projects': 'View Projects',
+                    'Read More': 'Read More',
+                    'Subscribe': 'Subscribe',
+                    'About Us': 'About Us',
+                    'Careers': 'Careers',
+                    'Interior Design': 'Interior Design',
+                    'Construction': 'Construction',
+                    'Architectural': 'Architectural',
+                    'Decorations': 'Decorations',
+                    "FAQ's": "FAQ's",
+                    'Privacy Policy': 'Privacy Policy',
+                    'Terms & Condition': 'Terms & Condition',
+                    'Years of experience': 'Years of experience',
+                    'What We Do': 'What We Do',
+                    'Bringing new life to<br>old processes': 'Bringing new life to<br>old processes',
+                    'Interior design is the art and science of enhancing the interior of building.': 'Interior design is the art and science of enhancing the interior of building.',
+                    'The technique, production, and materials used during the construction.': 'The technique, production, and materials used during the construction.',
+                    'The practice of planning, designing, and constructing buildings.': 'The practice of planning, designing, and constructing buildings.',
+                    'The practice of enhancing interior spaces with aesthetic elements.': 'The practice of enhancing interior spaces with aesthetic elements.',
+                    'Award<br>Winning<br>Designer': 'Award<br>Winning<br>Designer',
+                    'Our Remarkable Journey': 'Our Remarkable Journey',
+                    'Beautiful acoustics & Achievements': 'Beautiful acoustics & Achievements',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': 'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.',
+                    'Years of Experience': 'Years of Experience',
+                    'Projects Completed': 'Projects Completed',
+                    'Awards Received': 'Awards Received',
+                    'Testimonials': 'Testimonials',
+                    "What our client say's": "What our client say's",
+                    'Our Featured Portfolio': 'Our Featured Portfolio',
+                    'Our completed projects': 'Our completed projects',
+                    'Subscribe our daily Newsletter for update': 'Subscribe our daily Newsletter for update',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': 'Architecture is the art and technique of designing and building. It distinguishes from the skills.',
+                    'Company': 'Company',
+                    'Services': 'Services',
+                    'Support': 'Support',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora. All Rights Reserved.',
+                    'Architects<br>with <span>different</span><br>approach.': 'Architects<br>with <span>different</span><br>approach.',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': 'Architecture is the art and technique of designing and building. It distinguishes from the skills.',
+                },
+                'ES': {
+                    'Design': 'Diseño',
+                    'About': 'Acerca de',
+                    'Projects': 'Proyectos',
+                    'Team': 'Equipo',
+                    'Reviews': 'Reseñas',
+                    'Contact Us': 'Contáctenos',
+                    'Our Services': 'Nuestros Servicios',
+                    'View Projects': 'Ver Proyectos',
+                    'Read More': 'Leer Más',
+                    'Subscribe': 'Suscribirse',
+                    'About Us': 'Sobre Nosotros',
+                    'Careers': 'Carreras',
+                    'Interior Design': 'Diseño de Interiores',
+                    'Construction': 'Construcción',
+                    'Architectural': 'Arquitectura',
+                    'Decorations': 'Decoraciones',
+                    "FAQ's": "Preguntas Frecuentes",
+                    'Privacy Policy': 'Política de Privacidad',
+                    'Terms & Condition': 'Términos y Condiciones',
+                    'Years of experience': 'Años de experiencia',
+                    'What We Do': 'Lo que Hacemos',
+                    'Bringing new life to<br>old processes': 'Dando nueva vida a<br>procesos antiguos',
+                    'Interior design is the art and science of enhancing the interior of building.': 'El diseño de interiores es el arte y la ciencia de mejorar el interior de un edificio.',
+                    'The technique, production, and materials used during the construction.': 'La técnica, producción y materiales utilizados durante la construcción.',
+                    'The practice of planning, designing, and constructing buildings.': 'La práctica de planificar, diseñar y construir edificios.',
+                    'The practice of enhancing interior spaces with aesthetic elements.': 'La práctica de mejorar espacios interiores con elementos estéticos.',
+                    'Award<br>Winning<br>Designer': 'Diseñador<br>Galardonado',
+                    'Our Remarkable Journey': 'Nuestro Viaje Notable',
+                    'Beautiful acoustics & Achievements': 'Acústica hermosa y Logros',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': 'Estudiar arquitectura es exigente y es uno de los cursos más desafiantes en la universidad. Requiere largas horas, constancia y un período intensivo de estudio de casos.',
+                    'Years of Experience': 'Años de Experiencia',
+                    'Projects Completed': 'Proyectos Completados',
+                    'Awards Received': 'Premios Recibidos',
+                    'Testimonials': 'Testimonios',
+                    "What our client say's": "Lo que dicen nuestros clientes",
+                    'Our Featured Portfolio': 'Nuestro Portafolio Destacado',
+                    'Our completed projects': 'Nuestros proyectos completados',
+                    'Subscribe our daily Newsletter for update': 'Suscríbete a nuestro boletín diario para actualizaciones',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': 'La arquitectura es el arte y la técnica de diseñar y construir. Se distingue de las habilidades.',
+                    'Company': 'Empresa',
+                    'Services': 'Servicios',
+                    'Support': 'Soporte',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora. Todos los derechos reservados.',
+                    'Architects<br>with <span>different</span><br>approach.': 'Arquitectos<br>con <span>diferente</span><br>enfoque.',
+                },
+                'FR': {
+                    'Design': 'Conception',
+                    'About': 'À propos',
+                    'Projects': 'Projets',
+                    'Team': 'Équipe',
+                    'Reviews': 'Avis',
+                    'Contact Us': 'Contactez-nous',
+                    'Our Services': 'Nos Services',
+                    'View Projects': 'Voir les Projets',
+                    'Read More': 'Lire la Suite',
+                    'Subscribe': 'S\'abonner',
+                    'About Us': 'À Propos de Nous',
+                    'Careers': 'Carrières',
+                    'Interior Design': 'Design d\'Intérieur',
+                    'Construction': 'Construction',
+                    'Architectural': 'Architecture',
+                    'Decorations': 'Décorations',
+                    "FAQ's": "FAQ",
+                    'Privacy Policy': 'Politique de Confidentialité',
+                    'Terms & Condition': 'Conditions Générales',
+                    'Years of experience': "Années d'expérience",
+                    'What We Do': 'Ce que Nous Faisons',
+                    'Bringing new life to<br>old processes': 'Donner une nouvelle vie<br>aux anciens processus',
+                    'Interior design is the art and science of enhancing the interior of building.': "Le design d'intérieur est l'art et la science d'améliorer l'intérieur d'un bâtiment.",
+                    'The technique, production, and materials used during the construction.': 'La technique, la production et les matériaux utilisés lors de la construction.',
+                    'The practice of planning, designing, and constructing buildings.': "La pratique de la planification, de la conception et de la construction de bâtiments.",
+                    'The practice of enhancing interior spaces with aesthetic elements.': "La pratique d'améliorer les espaces intérieurs avec des éléments esthétiques.",
+                    'Award<br>Winning<br>Designer': 'Designer<br>Primé',
+                    'Our Remarkable Journey': 'Notre Parcours Remarquable',
+                    'Beautiful acoustics & Achievements': 'Belle acoustique et Réalisations',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': "Étudier l'architecture est exigeant et constitue l'un des cours les plus difficiles à l'université. Cela nécessite de longues heures, de la constance et une période intensive d'étude de cas.",
+                    'Years of Experience': "Années d'Expérience",
+                    'Projects Completed': 'Projets Réalisés',
+                    'Awards Received': 'Prix Reçus',
+                    'Testimonials': 'Témoignages',
+                    "What our client say's": "Ce que disent nos clients",
+                    'Our Featured Portfolio': 'Notre Portfolio Vedette',
+                    'Our completed projects': 'Nos projets réalisés',
+                    'Subscribe our daily Newsletter for update': "Abonnez-vous à notre newsletter quotidienne pour les mises à jour",
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': "L'architecture est l'art et la technique de concevoir et de construire. Elle se distingue des compétences.",
+                    'Company': 'Entreprise',
+                    'Services': 'Services',
+                    'Support': 'Support',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora. Tous droits réservés.',
+                    'Architects<br>with <span>different</span><br>approach.': 'Architectes<br>avec une <span>approche</span><br>différente.',
+                },
+                'DE': {
+                    'Design': 'Design',
+                    'About': 'Über uns',
+                    'Projects': 'Projekte',
+                    'Team': 'Team',
+                    'Reviews': 'Bewertungen',
+                    'Contact Us': 'Kontaktieren Sie uns',
+                    'Our Services': 'Unsere Dienstleistungen',
+                    'View Projects': 'Projekte ansehen',
+                    'Read More': 'Mehr lesen',
+                    'Subscribe': 'Abonnieren',
+                    'About Us': 'Über uns',
+                    'Careers': 'Karriere',
+                    'Interior Design': 'Innenarchitektur',
+                    'Construction': 'Bauwesen',
+                    'Architectural': 'Architektur',
+                    'Decorations': 'Dekorationen',
+                    "FAQ's": "FAQ",
+                    'Privacy Policy': 'Datenschutzrichtlinie',
+                    'Terms & Condition': 'Allgemeine Geschäftsbedingungen',
+                    'Years of experience': 'Jahre Erfahrung',
+                    'What We Do': 'Was wir tun',
+                    'Bringing new life to<br>old processes': 'Neues Leben in<br>alte Prozesse bringen',
+                    'Interior design is the art and science of enhancing the interior of building.': 'Innenarchitektur ist die Kunst und Wissenschaft der Verbesserung des Gebäudeinneren.',
+                    'The technique, production, and materials used during the construction.': 'Die Technik, Produktion und Materialien, die während des Baus verwendet werden.',
+                    'The practice of planning, designing, and constructing buildings.': 'Die Praxis der Planung, Gestaltung und Konstruktion von Gebäuden.',
+                    'The practice of enhancing interior spaces with aesthetic elements.': 'Die Praxis der Verbesserung von Innenräumen mit ästhetischen Elementen.',
+                    'Award<br>Winning<br>Designer': 'Preisgekrönter<br>Designer',
+                    'Our Remarkable Journey': 'Unsere bemerkenswerte Reise',
+                    'Beautiful acoustics & Achievements': 'Schöne Akustik & Errungenschaften',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': 'Architektur zu studieren ist anspruchsvoll und gehört zu den herausforderndsten Kursen an der Universität. Es erfordert lange Stunden, Beständigkeit und eine intensive Fallstudienphase.',
+                    'Years of Experience': 'Jahre Erfahrung',
+                    'Projects Completed': 'Abgeschlossene Projekte',
+                    'Awards Received': 'Erhaltene Auszeichnungen',
+                    'Testimonials': 'Testimonials',
+                    "What our client say's": 'Was unsere Kunden sagen',
+                    'Our Featured Portfolio': 'Unser ausgewähltes Portfolio',
+                    'Our completed projects': 'Unsere abgeschlossenen Projekte',
+                    'Subscribe our daily Newsletter for update': 'Abonnieren Sie unseren täglichen Newsletter für Updates',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': 'Architektur ist die Kunst und Technik des Entwerfens und Bauens. Sie unterscheidet sich von den Fähigkeiten.',
+                    'Company': 'Unternehmen',
+                    'Services': 'Dienstleistungen',
+                    'Support': 'Support',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora. Alle Rechte vorbehalten.',
+                    'Architects<br>with <span>different</span><br>approach.': 'Architekten<br>mit <span>anderem</span><br>Ansatz.',
+                },
+                'IT': {
+                    'Design': 'Design',
+                    'About': 'Chi siamo',
+                    'Projects': 'Progetti',
+                    'Team': 'Team',
+                    'Reviews': 'Recensioni',
+                    'Contact Us': 'Contattaci',
+                    'Our Services': 'I Nostri Servizi',
+                    'View Projects': 'Vedi Progetti',
+                    'Read More': 'Leggi di Più',
+                    'Subscribe': 'Iscriviti',
+                    'About Us': 'Chi Siamo',
+                    'Careers': 'Carriere',
+                    'Interior Design': 'Interior Design',
+                    'Construction': 'Costruzione',
+                    'Architectural': 'Architettura',
+                    'Decorations': 'Decorazioni',
+                    "FAQ's": "FAQ",
+                    'Privacy Policy': 'Informativa sulla Privacy',
+                    'Terms & Condition': 'Termini e Condizioni',
+                    'Years of experience': 'Anni di esperienza',
+                    'What We Do': 'Cosa Facciamo',
+                    'Bringing new life to<br>old processes': 'Dare nuova vita a<br>vecchi processi',
+                    'Interior design is the art and science of enhancing the interior of building.': "Il design d'interni è l'arte e la scienza di migliorare l'interno di un edificio.",
+                    'The technique, production, and materials used during the construction.': 'La tecnica, la produzione e i materiali utilizzati durante la costruzione.',
+                    'The practice of planning, designing, and constructing buildings.': 'La pratica di pianificare, progettare e costruire edifici.',
+                    'The practice of enhancing interior spaces with aesthetic elements.': 'La pratica di migliorare gli spazi interni con elementi estetici.',
+                    'Award<br>Winning<br>Designer': 'Designer<br>Premiato',
+                    'Our Remarkable Journey': 'Il Nostro Straordinario Percorso',
+                    'Beautiful acoustics & Achievements': 'Acustica bellissima e Risultati',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': 'Studiare architettura è impegnativo ed è uno dei corsi più difficili all\'università. Richiede lunghe ore, costanza e un intenso periodo di studio dei casi.',
+                    'Years of Experience': 'Anni di Esperienza',
+                    'Projects Completed': 'Progetti Completati',
+                    'Awards Received': 'Premi Ricevuti',
+                    'Testimonials': 'Testimonianze',
+                    "What our client say's": "Cosa dicono i nostri clienti",
+                    'Our Featured Portfolio': 'Il Nostro Portfolio in Evidenza',
+                    'Our completed projects': 'I nostri progetti completati',
+                    'Subscribe our daily Newsletter for update': 'Iscriviti alla nostra newsletter quotidiana per gli aggiornamenti',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': "L'architettura è l'arte e la tecnica di progettare e costruire. Si distingue dalle competenze.",
+                    'Company': 'Azienda',
+                    'Services': 'Servizi',
+                    'Support': 'Supporto',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora. Tutti i diritti riservati.',
+                    'Architects<br>with <span>different</span><br>approach.': 'Architetti<br>con <span>diverso</span><br>approccio.',
+                },
+                'PT': {
+                    'Design': 'Design',
+                    'About': 'Sobre',
+                    'Projects': 'Projetos',
+                    'Team': 'Equipe',
+                    'Reviews': 'Avaliações',
+                    'Contact Us': 'Contate-nos',
+                    'Our Services': 'Nossos Serviços',
+                    'View Projects': 'Ver Projetos',
+                    'Read More': 'Leia Mais',
+                    'Subscribe': 'Inscrever-se',
+                    'About Us': 'Sobre Nós',
+                    'Careers': 'Carreiras',
+                    'Interior Design': 'Design de Interiores',
+                    'Construction': 'Construção',
+                    'Architectural': 'Arquitetura',
+                    'Decorations': 'Decorações',
+                    "FAQ's": "FAQ",
+                    'Privacy Policy': 'Política de Privacidade',
+                    'Terms & Condition': 'Termos e Condições',
+                    'Years of experience': 'Anos de experiência',
+                    'What We Do': 'O que Fazemos',
+                    'Bringing new life to<br>old processes': 'Dando nova vida a<br>processos antigos',
+                    'Interior design is the art and science of enhancing the interior of building.': 'O design de interiores é a arte e ciência de melhorar o interior de um edifício.',
+                    'The technique, production, and materials used during the construction.': 'A técnica, produção e materiais utilizados durante a construção.',
+                    'The practice of planning, designing, and constructing buildings.': 'A prática de planejar, projetar e construir edifícios.',
+                    'The practice of enhancing interior spaces with aesthetic elements.': 'A prática de melhorar espaços interiores com elementos estéticos.',
+                    'Award<br>Winning<br>Designer': 'Designer<br>Premiado',
+                    'Our Remarkable Journey': 'Nossa Jornada Notável',
+                    'Beautiful acoustics & Achievements': 'Acústica linda e Conquistas',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': 'Estudar arquitetura é exigente e é um dos cursos mais desafiadores na universidade. Requer longas horas, consistência e um período intenso de estudo de casos.',
+                    'Years of Experience': 'Anos de Experiência',
+                    'Projects Completed': 'Projetos Concluídos',
+                    'Awards Received': 'Prêmios Recebidos',
+                    'Testimonials': 'Depoimentos',
+                    "What our client say's": "O que nossos clientes dizem",
+                    'Our Featured Portfolio': 'Nosso Portfólio em Destaque',
+                    'Our completed projects': 'Nossos projetos concluídos',
+                    'Subscribe our daily Newsletter for update': 'Assine nossa newsletter diária para atualizações',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': 'A arquitetura é a arte e técnica de projetar e construir. Ela se distingue das habilidades.',
+                    'Company': 'Empresa',
+                    'Services': 'Serviços',
+                    'Support': 'Suporte',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora. Todos os direitos reservados.',
+                    'Architects<br>with <span>different</span><br>approach.': 'Arquitetos<br>com <span>abordagem</span><br>diferente.',
+                },
+                'RU': {
+                    'Design': 'Дизайн',
+                    'About': 'О нас',
+                    'Projects': 'Проекты',
+                    'Team': 'Команда',
+                    'Reviews': 'Отзывы',
+                    'Contact Us': 'Свяжитесь с нами',
+                    'Our Services': 'Наши услуги',
+                    'View Projects': 'Посмотреть проекты',
+                    'Read More': 'Читать далее',
+                    'Subscribe': 'Подписаться',
+                    'About Us': 'О нас',
+                    'Careers': 'Карьера',
+                    'Interior Design': 'Интерьерный дизайн',
+                    'Construction': 'Строительство',
+                    'Architectural': 'Архитектура',
+                    'Decorations': 'Декорации',
+                    "FAQ's": "Часто задаваемые вопросы",
+                    'Privacy Policy': 'Политика конфиденциальности',
+                    'Terms & Condition': 'Условия использования',
+                    'Years of experience': 'Лет опыта',
+                    'What We Do': 'Что мы делаем',
+                    'Bringing new life to<br>old processes': 'Вдохнуть новую жизнь в<br>старые процессы',
+                    'Interior design is the art and science of enhancing the interior of building.': 'Интерьерный дизайн - это искусство и наука улучшения интерьера здания.',
+                    'The technique, production, and materials used during the construction.': 'Техника, производство и материалы, используемые во время строительства.',
+                    'The practice of planning, designing, and constructing buildings.': 'Практика планирования, проектирования и строительства зданий.',
+                    'The practice of enhancing interior spaces with aesthetic elements.': 'Практика улучшения интерьеров с помощью эстетических элементов.',
+                    'Award<br>Winning<br>Designer': 'Награжденный<br>дизайнер',
+                    'Our Remarkable Journey': 'Наш замечательный путь',
+                    'Beautiful acoustics & Achievements': 'Красивая акустика и достижения',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': 'Изучение архитектуры требует больших усилий и является одним из самых сложных курсов в университете. Это требует долгих часов, постоянства и интенсивного периода изучения случаев.',
+                    'Years of Experience': 'Лет опыта',
+                    'Projects Completed': 'Завершенных проектов',
+                    'Awards Received': 'Полученных наград',
+                    'Testimonials': 'Отзывы',
+                    "What our client say's": "Что говорят наши клиенты",
+                    'Our Featured Portfolio': 'Наше избранное портфолио',
+                    'Our completed projects': 'Наши завершенные проекты',
+                    'Subscribe our daily Newsletter for update': 'Подпишитесь на нашу ежедневную рассылку для обновлений',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': 'Архитектура - это искусство и техника проектирования и строительства. Она отличается от навыков.',
+                    'Company': 'Компания',
+                    'Services': 'Услуги',
+                    'Support': 'Поддержка',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora. Все права защищены.',
+                    'Architects<br>with <span>different</span><br>approach.': 'Архитекторы<br>с <span>другим</span><br>подходом.',
+                },
+                'AR': {
+                    'Design': 'تصميم',
+                    'About': 'عن',
+                    'Projects': 'مشاريع',
+                    'Team': 'فريق',
+                    'Reviews': 'مراجعات',
+                    'Contact Us': 'اتصل بنا',
+                    'Our Services': 'خدماتنا',
+                    'View Projects': 'عرض المشاريع',
+                    'Read More': 'اقرأ المزيد',
+                    'Subscribe': 'اشتراك',
+                    'About Us': 'معلومات عنا',
+                    'Careers': 'وظائف',
+                    'Interior Design': 'التصميم الداخلي',
+                    'Construction': 'البناء',
+                    'Architectural': 'العمارة',
+                    'Decorations': 'الديكورات',
+                    "FAQ's": "الأسئلة الشائعة",
+                    'Privacy Policy': 'سياسة الخصوصية',
+                    'Terms & Condition': 'الشروط والأحكام',
+                    'Years of experience': 'سنوات من الخبرة',
+                    'What We Do': 'ماذا نفعل',
+                    'Bringing new life to<br>old processes': 'ضخ حياة جديدة في<br>العمليات القديمة',
+                    'Interior design is the art and science of enhancing the interior of building.': 'التصميم الداخلي هو فن وعلم تحسين الجزء الداخلي من المبنى.',
+                    'The technique, production, and materials used during the construction.': 'التقنية والإنتاج والمواد المستخدمة أثناء البناء.',
+                    'The practice of planning, designing, and constructing buildings.': 'ممارسة تخطيط وتصميم وبناء المباني.',
+                    'The practice of enhancing interior spaces with aesthetic elements.': 'ممارسة تحسين المساحات الداخلية بالعناصر الجمالية.',
+                    'Award<br>Winning<br>Designer': 'مصمم<br>حائز على<br>جوائز',
+                    'Our Remarkable Journey': 'رحلتنا الرائعة',
+                    'Beautiful acoustics & Achievements': 'صوتيات جميلة وإنجازات',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': 'دراسة الهندسة المعمارية تتطلب جهداً وهي من أكثر الدورات تحدياً في الجامعة. تتطلب ساعات طويلة وثباتاً وفترة دراسة حالة مكثفة.',
+                    'Years of Experience': 'سنوات من الخبرة',
+                    'Projects Completed': 'المشاريع المنجزة',
+                    'Awards Received': 'الجوائز المستلمة',
+                    'Testimonials': 'شهادات العملاء',
+                    "What our client say's": "ما يقوله عملاؤنا",
+                    'Our Featured Portfolio': 'معرض أعمالنا المميز',
+                    'Our completed projects': 'مشاريعنا المنجزة',
+                    'Subscribe our daily Newsletter for update': 'اشترك في نشرتنا الإخبارية اليومية للحصول على التحديثات',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': 'الهندسة المعمارية هي فن وتقنية التصميم والبناء. وهي تختلف عن المهارات.',
+                    'Company': 'الشركة',
+                    'Services': 'الخدمات',
+                    'Support': 'الدعم',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora. جميع الحقوق محفوظة.',
+                    'Architects<br>with <span>different</span><br>approach.': 'مهندسون معماريون<br>بـ <span>نهج</span><br>مختلف.',
+                },
+                'ZH': {
+                    'Design': '设计',
+                    'About': '关于',
+                    'Projects': '项目',
+                    'Team': '团队',
+                    'Reviews': '评价',
+                    'Contact Us': '联系我们',
+                    'Our Services': '我们的服务',
+                    'View Projects': '查看项目',
+                    'Read More': '了解更多',
+                    'Subscribe': '订阅',
+                    'About Us': '关于我们',
+                    'Careers': '职业发展',
+                    'Interior Design': '室内设计',
+                    'Construction': '建筑',
+                    'Architectural': '建筑学',
+                    'Decorations': '装饰',
+                    "FAQ's": "常见问题",
+                    'Privacy Policy': '隐私政策',
+                    'Terms & Condition': '条款与条件',
+                    'Years of experience': '年的经验',
+                    'What We Do': '我们的工作',
+                    'Bringing new life to<br>old processes': '为旧流程注入<br>新生命',
+                    'Interior design is the art and science of enhancing the interior of building.': '室内设计是改善建筑内部的艺术和科学。',
+                    'The technique, production, and materials used during the construction.': '施工过程中使用的技术、生产和材料。',
+                    'The practice of planning, designing, and constructing buildings.': '规划、设计和建造建筑物的实践。',
+                    'The practice of enhancing interior spaces with aesthetic elements.': '用美学元素改善室内空间的实践。',
+                    'Award<br>Winning<br>Designer': '获奖<br>设计师',
+                    'Our Remarkable Journey': '我们的卓越旅程',
+                    'Beautiful acoustics & Achievements': '美丽的声学与成就',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': '学习建筑学要求很高，是大学里最具挑战性的课程之一。它需要长时间的学习、持之以恒和大量的案例研究。',
+                    'Years of Experience': '经验年限',
+                    'Projects Completed': '已完成项目',
+                    'Awards Received': '获得奖项',
+                    'Testimonials': '客户评价',
+                    "What our client say's": "客户的评价",
+                    'Our Featured Portfolio': '我们的精选作品集',
+                    'Our completed projects': '我们已完成的项目',
+                    'Subscribe our daily Newsletter for update': '订阅我们的每日通讯获取更新',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': '建筑是设计和建造的艺术和技术。它区别于技能。',
+                    'Company': '公司',
+                    'Services': '服务',
+                    'Support': '支持',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora。保留所有权利。',
+                    'Architects<br>with <span>different</span><br>approach.': '建筑师<br>采用<span>不同</span><br>的方法。',
+                },
+                'JA': {
+                    'Design': 'デザイン',
+                    'About': 'について',
+                    'Projects': 'プロジェクト',
+                    'Team': 'チーム',
+                    'Reviews': 'レビュー',
+                    'Contact Us': 'お問い合わせ',
+                    'Our Services': 'サービス',
+                    'View Projects': 'プロジェクトを見る',
+                    'Read More': '続きを読む',
+                    'Subscribe': '購読する',
+                    'About Us': '私たちについて',
+                    'Careers': 'キャリア',
+                    'Interior Design': 'インテリアデザイン',
+                    'Construction': '建設',
+                    'Architectural': '建築',
+                    'Decorations': '装飾',
+                    "FAQ's": "よくある質問",
+                    'Privacy Policy': 'プライバシーポリシー',
+                    'Terms & Condition': '利用規約',
+                    'Years of experience': '年の経験',
+                    'What We Do': '私たちの事業',
+                    'Bringing new life to<br>old processes': '古いプロセスに<br>新しい命を吹き込む',
+                    'Interior design is the art and science of enhancing the interior of building.': 'インテリアデザインは、建物の内部を向上させる芸術と科学です。',
+                    'The technique, production, and materials used during the construction.': '建設中に使用される技術、生産、材料。',
+                    'The practice of planning, designing, and constructing buildings.': '建物の計画、設計、建設の実践。',
+                    'The practice of enhancing interior spaces with aesthetic elements.': '美的要素で内部空間を向上させる実践。',
+                    'Award<br>Winning<br>Designer': '受賞歴のある<br>デザイナー',
+                    'Our Remarkable Journey': '私たちの素晴らしい旅',
+                    'Beautiful acoustics & Achievements': '美しい音響と実績',
+                    'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.': '建築を学ぶことは要求が厳しく、大学で最も難しいコースの一つです。長時間の学習、一貫性、そして多くのケーススタディが必要です。',
+                    'Years of Experience': '経験年数',
+                    'Projects Completed': '完了したプロジェクト',
+                    'Awards Received': '受賞歴',
+                    'Testimonials': 'お客様の声',
+                    "What our client say's": "お客様の声",
+                    'Our Featured Portfolio': '注目のポートフォリオ',
+                    'Our completed projects': '完了したプロジェクト',
+                    'Subscribe our daily Newsletter for update': '毎日のニュースレターを購読して最新情報を入手',
+                    'Architecture is the art and technique of designing and building. It distinguishes from the skills.': '建築は設計と建設の芸術と技術です。それはスキルとは区別されます。',
+                    'Company': '会社',
+                    'Services': 'サービス',
+                    'Support': 'サポート',
+                    '© 2026 Arcora. All Rights Reserved.': '© 2026 Arcora。全著作権所有。',
+                    'Architects<br>with <span>different</span><br>approach.': '建築家<br>〈span〉異なる〈/span〉<br>アプローチで。',
+                }
+            };
+
+            // Toast notification
             const toast = document.getElementById('toast');
             let toastTimer;
 
@@ -1482,11 +1953,88 @@
                 closeContactModal();
             });
 
-            // Language Dropdown
+            // Language switching
+            let currentLanguage = 'EN';
             const langBtn = document.getElementById('langBtn');
             const langDropdown = document.getElementById('langDropdown');
             const currentLang = document.getElementById('currentLang');
 
+            function applyLanguage(langCode) {
+                const translationsObj = translations[langCode] || translations['EN'];
+                
+                // Update current language display
+                currentLang.textContent = langCode;
+                
+                // Update active state in dropdown
+                document.querySelectorAll('#langDropdown a').forEach(l => l.classList.remove('active'));
+                document.querySelector(`#langDropdown a[data-lang="${langCode}"]`)?.classList.add('active');
+                
+                // Update all elements with data-translate attribute
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    if (translationsObj[key]) {
+                        // Handle HTML content
+                        el.innerHTML = translationsObj[key];
+                    }
+                });
+
+                // Update specific elements by ID
+                const idMap = {
+                    'yearsText': 'Years of experience',
+                    'whatWeDo': 'What We Do',
+                    'bringingLife': 'Bringing new life to<br>old processes',
+                    'service1Title': 'Interior Design',
+                    'service1Desc': 'Interior design is the art and science of enhancing the interior of building.',
+                    'service2Title': 'Construction',
+                    'service2Desc': 'The technique, production, and materials used during the construction.',
+                    'service3Title': 'Architectural',
+                    'service3Desc': 'The practice of planning, designing, and constructing buildings.',
+                    'service4Title': 'Decoration',
+                    'service4Desc': 'The practice of enhancing interior spaces with aesthetic elements.',
+                    'awardBadge': 'Award<br>Winning<br>Designer',
+                    'journeyTitle': 'Our Remarkable Journey',
+                    'acousticsTitle': 'Beautiful acoustics & Achievements',
+                    'achieveDesc': 'Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.',
+                    'stat1': 'Years of Experience',
+                    'stat2': 'Projects Completed',
+                    'stat3': 'Awards Received',
+                    'testimonialsLabel': 'Testimonials',
+                    'clientSay': "What our client say's",
+                    'portfolioLabel': 'Our Featured Portfolio',
+                    'completedProjects': 'Our completed projects',
+                    'newsletterTitle': 'Subscribe our daily Newsletter for update',
+                    'newsletterDesc': 'Studying architecture is demanding and standard to one of the most challenging courses at university.',
+                    'footerDesc': 'Architecture is the art and technique of designing and building. It distinguishes from the skills.',
+                    'footerCompany': 'Company',
+                    'footerServices': 'Services',
+                    'footerSupport': 'Support',
+                    'copyright': '© 2026 Arcora. All Rights Reserved.',
+                    'heroTitle': 'Architects<br>with <span>different</span><br>approach.',
+                    'heroDesc': 'Architecture is the art and technique of designing and building. It distinguishes from the skills.',
+                    'contactTitle': '📬 Contact Us',
+                    'contactDesc': "We'd love to hear from you. Reach out through any of the channels below.",
+                    'contactAddress': '123 Design District, NY 10001',
+                    'contactHours': 'Mon–Fri: 9:00 AM – 6:00 PM'
+                };
+
+                Object.keys(idMap).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && translationsObj[idMap[id]]) {
+                        el.innerHTML = translationsObj[idMap[id]];
+                    }
+                });
+
+                // Update hero title separately (has span)
+                const heroTitle = document.getElementById('heroTitle');
+                if (heroTitle && translationsObj['Architects<br>with <span>different</span><br>approach.']) {
+                    heroTitle.innerHTML = translationsObj['Architects<br>with <span>different</span><br>approach.'];
+                }
+
+                currentLanguage = langCode;
+                showToast(`🌐 Language changed to ${langCode}`);
+            }
+
+            // Language dropdown toggle
             langBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 langDropdown.classList.toggle('open');
@@ -1504,17 +2052,8 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const lang = this.dataset.lang;
-                    currentLang.textContent = lang;
-                    
-                    // Update active state
-                    document.querySelectorAll('#langDropdown a').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Close dropdown
+                    applyLanguage(lang);
                     langDropdown.classList.remove('open');
-                    
-                    // Show toast for language change
-                    showToast(`🌐 Language changed to ${lang}`);
                 });
             });
 
@@ -1549,7 +2088,6 @@
                             behavior: 'smooth',
                             block: 'start'
                         });
-                        // NO toast notification for navigation
                     }
                 });
             });
@@ -1632,7 +2170,7 @@
                 document.querySelector('#projects').scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
 
-            console.log('✅ Navigation has NO toast notifications, language dropdown with multiple languages added!');
+            console.log('✅ Language switching fully functional with 10 languages!');
         })();
     </script>
 
