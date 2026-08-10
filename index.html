@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcora — Architects with a Different Approach</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --navy-dark: #0a1828;
+            --navy-card: #122236;
+            --ivory: #faf7f2;
+            --gold: #d4a359;
+            --gold-light: #e6be80;
+            --text-dark: #1f2937;
+            --text-light: #94a3b8;
+            --border-light: #e5e0d8;
+            --border-dark: #1e324a;
+            --white: #ffffff;
+            --serif-font: 'Cinzel', serif;
+            --sans-font: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--sans-font);
+            background-color: var(--navy-dark);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--serif-font);
+            font-weight: 600;
+        }
+
+        .section-subtitle {
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--navy-dark);
+        }
+
+        .btn-gold:hover {
+            background-color: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-link {
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-link:hover {
+            color: var(--gold);
+        }
+
+        /* Navigation */
+        header {
+            padding: 28px 0;
+            background: transparent;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--serif-font);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .logo-icon {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gold);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 36px;
+            color: var(--white);
+            font-size: 14px;
+        }
+
+        .nav-menu a:hover {
+            color: var(--gold);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lang-select {
+            color: var(--white);
+            font-size: 13px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 60px 0 160px;
+            color: var(--white);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            line-height: 1.15;
+            margin-bottom: 24px;
+        }
+
+        .hero-title span {
+            font-style: italic;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .hero-desc {
+            color: var(--text-light);
+            font-size: 15px;
+            max-width: 440px;
+            margin-bottom: 40px;
+        }
+
+        .hero-action {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .hero-image-container {
+            position: relative;
+        }
+
+        .arch-badge {
+            position: absolute;
+            top: 20px;
+            left: -30px;
+            background: rgba(18, 34, 54, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-dark);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .arch-badge .num {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .arch-badge .txt {
+            font-size: 8px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .main-arch-img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 200px 200px 0 0;
+            border: 1px solid var(--border-dark);
+        }
+
+        .sub-arch-img {
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            width: 160px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 4px solid var(--navy-dark);
+        }
+
+        /* Light Curve Section Wrappers */
+        .curved-wrapper {
+            background-color: var(--ivory);
+            border-radius: 60px 60px 0 0;
+            padding: 100px 0;
+            position: relative;
+            margin-top: -60px;
+        }
+
+        /* Services Section */
+        .services-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .services-header h2 {
+            font-size: 38px;
+            color: var(--navy-dark);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 36px 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 28px;
+        }
+
+        .service-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--navy-dark);
+        }
+
+        .service-card p {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        .service-card .read-more {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--navy-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Achievements / Acoustics Section */
+        .achievements {
+            padding: 100px 0 40px;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .achieve-img-box {
+            position: relative;
+        }
+
+        .achieve-main-img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 200px 200px 12px 12px;
+        }
+
+        .award-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: var(--navy-dark);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: var(--serif-font);
+            font-weight: 700;
+            font-size: 13px;
+            width: 110px;
+        }
+
+        .achieve-content h2 {
+            font-size: 38px;
+            color: var(--navy-dark);
+            margin-bottom: 20px;
+        }
+
+        .achieve-content p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-light);
+            padding-top: 30px;
+        }
+
+        .stat-item h3 {
+            font-size: 32px;
+            color: var(--navy-dark);
+        }
+
+        .stat-item p {
+            font-size: 12px;
+            margin-bottom: 0;
+            color: #64748b;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--navy-dark);
+            padding: 100px 0;
+            color: var(--white);
+        }
+
+        .testimonials-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 48px;
+        }
+
+        .testimonials-header h2 {
+            font-size: 36px;
+        }
+
+        .slider-controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border-dark);
+            background: transparent;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .control-btn.active {
+            background: var(--gold);
+            color: var(--navy-dark);
+            border-color: var(--gold);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--navy-card);
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid var(--border-dark);
+            position: relative;
+        }
+
+        .testi-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-info h4 {
+            font-size: 14px;
+            font-family: var(--sans-font);
+        }
+
+        .user-info p {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .quote-mark {
+            color: var(--gold);
+            font-size: 20px;
+        }
+
+        .testimonial-card p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 100px 0;
+            background-color: var(--ivory);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .portfolio-card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .portfolio-info {
+            padding: 16px;
+        }
+
+        .portfolio-info h4 {
+            font-size: 15px;
+            color: var(--navy-dark);
+            margin-bottom: 4px;
+        }
+
+        .portfolio-info p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Newsletter Banner */
+        .newsletter {
+            padding: 60px 0 100px;
+            background-color: var(--navy-dark);
+        }
+
+        .newsletter-card {
+            background: var(--navy-card);
+            border-radius: 24px;
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            border: 1px solid var(--border-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-content h2 {
+            font-size: 32px;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .newsletter-content p {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+            font-size: 13px;
+        }
+
+        .newsletter-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 100px 100px 0 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy-dark);
+            color: var(--text-light);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-dark);
+            font-size: 13px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            color: var(--white);
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .footer-col h4 {
+            color: var(--white);
+            font-size: 14px;
+            margin-bottom: 16px;
+            font-family: var(--sans-font);
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-dark);
+            font-size: 12px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-grid, .achievements-grid, .newsletter-card {
+                grid-template-columns: 1fr;
+            }
+            .services-grid, .testimonials-grid, .portfolio-grid, .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .services-grid, .testimonials-grid, .portfolio-grid, .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-title {
+                font-size: 38px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container nav-wrapper">
+            <a href="#" class="logo">
+                <div class="logo-icon"></div> Arcora.
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#">Design</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Projects</a></li>
+                <li><a href="#">Team</a></li>
+                <li><a href="#">Reviews</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="lang-select">EN <i class="fa-solid fa-chevron-down"></i></button>
+                <a href="#" class="btn btn-gold">Contact Us</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1 class="hero-title">Architects<br>with <span>different</span><br>approach.</h1>
+                <p class="hero-desc">Architecture is the art and technique of designing and building. It distinguishes from the skills.</p>
+                <div class="hero-action">
+                    <a href="#" class="btn btn-gold">Our Services <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="btn-link">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="hero-image-container">
+                <div class="arch-badge">
+                    <span class="num">15+</span>
+                    <span class="txt">Years of experience</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Modern Architecture" class="main-arch-img">
+                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400&q=80" alt="Villa Exterior" class="sub-arch-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Light Curved Content Area -->
+    <div class="curved-wrapper">
+        <div class="container">
+            <!-- Services Section -->
+            <section class="services-header">
+                <span class="section-subtitle">What We Do</span>
+                <h2>Bringing new life to<br>old processes</h2>
+            </section>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-couch"></i></div>
+                    <h3>Interior Design</h3>
+                    <p>Interior design is the art and science of enhancing the interior of building.</p>
+                    <a href="#" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+                    <h3>Construction</h3>
+                    <p>The technique, production, and materials used during the construction.</p>
+                    <a href="#" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-city"></i></div>
+                    <h3>Architectural</h3>
+                    <p>The practice of planning, designing, and constructing buildings.</p>
+                    <a href="#" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fa-solid fa-atom"></i></div>
+                    <h3>Decoration</h3>
+                    <p>The practice of enhancing interior spaces with aesthetic elements.</p>
+                    <a href="#" class="read-more">Read More <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Achievements & Acoustics -->
+            <section class="achievements">
+                <div class="achievements-grid">
+                    <div class="achieve-img-box">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Luxury Home" class="achieve-main-img">
+                        <div class="award-badge">
+                            Award<br>Winning<br>Designer
+                        </div>
+                    </div>
+                    <div class="achieve-content">
+                        <span class="section-subtitle">Our Remarkable Journey</span>
+                        <h2>Beautiful acoustics & Achievements</h2>
+                        <p>Studying architecture is demanding and standard to one of the most challenging courses at university. It required long hours, consistent and a heavy case study period.</p>
+                        <div style="display: flex; gap: 16px; align-items: center;">
+                            <a href="#" class="btn btn-gold">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                            <a href="#" class="btn-link" style="color: var(--navy-dark);">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <h3>12+</h3>
+                                <p>Years of Experience</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>246+</h3>
+                                <p>Projects Completed</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>42+</h3>
+                                <p>Awards Received</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="testimonials-header">
+                <div>
+                    <span class="section-subtitle">Testimonials</span>
+                    <h2>What our client say's</h2>
+                </div>
+                <div class="slider-controls">
+                    <button class="control-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="control-btn active"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testi-header">
+                        <div class="user-info">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Mila K. Vance" class="user-avatar">
+                            <div>
+                                <h4>Mila K. Vance</h4>
+                                <p>Interior Designer</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-quote-right quote-mark"></i>
+                    </div>
+                    <p>"Their vision for our project was outstanding. They transformed our ideas into a breathtaking reality."</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testi-header">
+                        <div class="user-info">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="James T. Wilson" class="user-avatar">
+                            <div>
+                                <h4>James T. Wilson</h4>
+                                <p>Property Owner</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-quote-right quote-mark"></i>
+                    </div>
+                    <p>"Professional, creative, and incredibly attentive. The result exceeded all our expectations."</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testi-header">
+                        <div class="user-info">
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=100&q=80" alt="Sophia L. Moore" class="user-avatar">
+                            <div>
+                                <h4>Sophia L. Moore</h4>
+                                <p>Real Estate Investor</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-quote-right quote-mark"></i>
+                    </div>
+                    <p>"A perfect blend of innovation and functionality. We couldn't be happier with the results."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Completed Projects -->
+    <section class="portfolio">
+        <div class="container">
+            <div class="testimonials-header" style="margin-bottom: 0;">
+                <div>
+                    <span class="section-subtitle">Our Featured Portfolio</span>
+                    <h2 style="color: var(--navy-dark);">Our completed projects</h2>
+                </div>
+                <div class="slider-controls">
+                    <button class="control-btn" style="border-color: #cbd5e1; color: var(--navy-dark);"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="control-btn active"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80" alt="Project" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <h4>Modern Urban Villa</h4>
+                        <p>California, USA</p>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=400&q=80" alt="Project" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <h4>Oceanview Residence</h4>
+                        <p>Florida, USA</p>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80" alt="Project" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <h4>Skyline Office Tower</h4>
+                        <p>New York, USA</p>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=400&q=80" alt="Project" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <h4>Minimalist Apartment</h4>
+                        <p>Toronto, Canada</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-card">
+                <div class="newsletter-content">
+                    <h2>Subscribe our daily Newsletter for update</h2>
+                    <p>Studying architecture is demanding and standard to one of the most challenging courses at university.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault();">
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit" class="btn btn-gold">Subscribe</button>
+                    </form>
+                </div>
+                <div>
+                    <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=600&q=80" alt="Interior space" class="newsletter-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo logo">
+                        <div class="logo-icon"></div> Arcora.
+                    </div>
+                    <p>Architecture is the art and technique of designing and building. It distinguishes from the skills.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Projects</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Interior Design</a></li>
+                        <li><a href="#">Construction</a></li>
+                        <li><a href="#">Architectural</a></li>
+                        <li><a href="#">Decorations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Condition</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Arcora. All Rights Reserved.</p>
+                <p>Design with <span style="color: #ef4444;">♥</span> by UI/UX Studio</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
